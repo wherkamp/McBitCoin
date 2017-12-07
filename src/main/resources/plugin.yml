@@ -1,6 +1,6 @@
-name: McBitCoin
+name: McBitCoinAPI
 version: ${project.version}
-main: me.kingtux.mcbitcoin.McBitCoin
+main: me.kingtux.mcbitcoin.McBitCoinAPI
 prefix: [MCBitCoin]
 authors: [KingTux]
 description: Have you ever wanted Bitcoin in Minecraft? Well here you have it?
