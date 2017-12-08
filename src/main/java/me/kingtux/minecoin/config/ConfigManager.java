@@ -14,6 +14,11 @@ public class ConfigManager {
     private File mainConfig;
 
     private File playerFile;
+
+    public FileConfiguration getPlayerConfig() {
+        return playerConfig;
+    }
+
     private FileConfiguration playerConfig;
 
 

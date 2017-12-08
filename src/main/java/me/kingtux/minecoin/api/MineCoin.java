@@ -18,7 +18,7 @@ public class MineCoin {
         if (minecoinMain.getConfigSettings().isUseMySql()) {
             return minecoinMain.getConnectionManager().getPlayerAccountBalance(p);
         } else {
-            return 0;
+            minecoinMain.getConfigSettings().getConfigManager().getPlayerConfig().getInt(p.getUniqueId().toString());
         }
     }
 
@@ -26,6 +26,7 @@ public class MineCoin {
         if (minecoinMain.getConfigSettings().isUseMySql()) {
             minecoinMain.getConnectionManager().setMoney(p, amount);
         } else {
+            minecoinMain.getConfigSettings().getConfigManager().getPlayerConfig().set(p.getUniqueId().toString(), amount);
         }
     }
 
@@ -33,6 +34,7 @@ public class MineCoin {
         if (minecoinMain.getConfigSettings().isUseMySql()) {
             minecoinMain.getConnectionManager().addMoney(p, amount);
         } else {
+            minecoinMain.getConfigSettings().getConfigManager().getPlayerConfig().set(p.getUniqueId().toString(), getBalance(p) + amount);
         }
     }
 
@@ -40,6 +42,7 @@ public class MineCoin {
         if (minecoinMain.getConfigSettings().isUseMySql()) {
             minecoinMain.getConnectionManager().removeMoney(p, amount);
         } else {
+            minecoinMain.getConfigSettings().getConfigManager().getPlayerConfig().set(p.getUniqueId().toString(), getBalance(p) - amount);
         }
     }
 }
