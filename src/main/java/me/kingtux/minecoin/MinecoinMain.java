@@ -1,5 +1,6 @@
 package me.kingtux.minecoin;
 
+import me.kingtux.minecoin.api.MineCoinAPI;
 import me.kingtux.minecoin.commands.BalanceCommand;
 import me.kingtux.minecoin.config.ConfigManager;
 import me.kingtux.minecoin.config.ConfigSettings;
@@ -14,6 +15,7 @@ public final class MinecoinMain extends JavaPlugin {
     private ConfigSettings configSettings;
     private ConnectionManager connectionManager;
     private ConfigManager configManager;
+    private MineCoinAPI instance;
 
     public ConnectionManager getConnectionManager() {
         return connectionManager;
@@ -37,7 +39,7 @@ public final class MinecoinMain extends JavaPlugin {
                     + String.valueOf(configSettings.getCoinsLeft() - configSettings.getCoins()));
 
         }
-
+        instance = new MineCoinAPI(this);
     }
 
     @Override
@@ -61,4 +63,7 @@ public final class MinecoinMain extends JavaPlugin {
         this.configSettings = configSettings;
     }
 
+    public MineCoinAPI getInstance() {
+        return instance;
+    }
 }

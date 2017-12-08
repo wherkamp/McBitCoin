@@ -4,12 +4,15 @@ import me.kingtux.minecoin.MinecoinMain;
 import org.bukkit.entity.Player;
 
 public class MineCoinAPI {
-    private MinecoinMain minecoinMain;
+    private static MinecoinMain minecoinMain;
 
     public MineCoinAPI(MinecoinMain plugin) {
-        this.minecoinMain = plugin;
+        minecoinMain = plugin;
     }
 
+    public static MineCoinAPI getIntance() {
+        return minecoinMain.getInstance();
+    }
     public MinecoinMain getMinecoinMain() {
         return minecoinMain;
     }
