@@ -1,6 +1,7 @@
 package me.kingtux.minecoin.commands;
 
 import me.kingtux.minecoin.MinecoinMain;
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -17,9 +18,11 @@ public class BalanceCommand implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (command.getName().equalsIgnoreCase("balance")) {
             if (sender instanceof Player) {
+                //The basic command for /balance
                 Player p = (Player) sender;
-                minecoinMain.getConnectionManager().addMoney(p, 15);
-                p.sendMessage(String.valueOf(minecoinMain.getConnectionManager().getPlayerAccountBalance(p)));
+                p.sendMessage(ChatColor.translateAlternateColorCodes('&',
+                        "&2Your balance is: " +
+                                String.valueOf(minecoinMain.getConnectionManager().getPlayerAccountBalance(p))));
             }
         }
         return false;

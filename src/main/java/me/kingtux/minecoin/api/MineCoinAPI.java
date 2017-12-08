@@ -32,6 +32,7 @@ public class MineCoinAPI {
                 return true;
             } else {
                 minecoinMain.getConfigSettings().getConfigManager().getPlayerConfig().set(p.getUniqueId().toString(), amount);
+                minecoinMain.getConfigSettings().getConfigManager().savePlayerConfig();
                 return true;
             }
         } else {
@@ -47,6 +48,7 @@ public class MineCoinAPI {
                 return true;
             } else {
                 minecoinMain.getConfigSettings().getConfigManager().getPlayerConfig().set(p.getUniqueId().toString(), getBalance(p) + amount);
+                minecoinMain.getConfigSettings().getConfigManager().savePlayerConfig();
                 return true;
             }
         } else {
@@ -61,6 +63,7 @@ public class MineCoinAPI {
                 return true;
             } else {
                 minecoinMain.getConfigSettings().getConfigManager().getPlayerConfig().set(p.getUniqueId().toString(), getBalance(p) - amount);
+                minecoinMain.getConfigSettings().getConfigManager().savePlayerConfig();
                 return true;
             }
         } else {

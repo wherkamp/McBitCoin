@@ -3,8 +3,11 @@ version: ${project.version}
 main: me.kingtux.minecoin.MinecoinMain
 prefix: MCBitCoin
 authors: [KingTux]
-description: Have you ever wanted Bitcoin in Minecraft? Well here you have it?
+description: Have you ever wanted a Cryto Currency in Minecraft? Well here you have it?
 website: wherkamp.github.io
 commands:
    balance:
-      description: Get the balance of you or another player, online or offline.
+      description: Get the balance of you!
+      aliases: [bal, coins, coinbal, coinbalance]
+   coineco:
+      description: Give, Take, get money of people!

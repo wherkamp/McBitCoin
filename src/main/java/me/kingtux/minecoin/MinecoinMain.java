@@ -2,6 +2,7 @@ package me.kingtux.minecoin;
 
 import me.kingtux.minecoin.api.MineCoinAPI;
 import me.kingtux.minecoin.commands.BalanceCommand;
+import me.kingtux.minecoin.commands.CoinecoCommand;
 import me.kingtux.minecoin.config.ConfigManager;
 import me.kingtux.minecoin.config.ConfigSettings;
 import me.kingtux.minecoin.listeners.PlayerEvents;
@@ -44,11 +45,15 @@ public final class MinecoinMain extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        // Plugin shutdown logic
+        if (!configSettings.isUseMySql()) {
+            configManager.savePlayerConfig();
+        }
+
     }
 
     private void registerCommands() {
         getCommand("balance").setExecutor(new BalanceCommand(this));
+        getCommand("coineco").setExecutor(new CoinecoCommand(this));
     }
 
     private void registerEvents() {

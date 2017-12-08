@@ -53,6 +53,13 @@ public class ConfigManager {
         setupConfigSettings();
     }
 
+    public void savePlayerConfig() {
+        try {
+            playerConfig.save(playerFile);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
     public void setupConfigSettings() {
         mainclass.setConfigSettings(new ConfigSettings(this));
     }
