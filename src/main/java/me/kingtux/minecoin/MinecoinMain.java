@@ -7,6 +7,8 @@ import me.kingtux.minecoin.listeners.PlayerEvents;
 import me.kingtux.minecoin.mysqlmanager.ConnectionManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.util.logging.Level;
+
 
 public final class MinecoinMain extends JavaPlugin {
     private ConfigSettings configSettings;
@@ -24,13 +26,17 @@ public final class MinecoinMain extends JavaPlugin {
 
         if (configSettings.isUseMySql() == true) {
             connectionManager = new ConnectionManager(this);
-            System.out.println(connectionManager.toString());
         } else {
-            System.out.println("You are not using Mysql");
+            getLogger().log(Level.INFO, "You are not using Mysql. I recommend you change to Mysql");
         }
         System.out.println(configSettings.toString());
         registerCommands();
         registerEvents();
+        if (configSettings.getCoinsLeft() > configSettings.getCoins()) {
+            getLogger().log(Level.WARNING, "Lack of Coins in System! Increase coins by "
+                    + String.valueOf(configSettings.getCoinsLeft() - configSettings.getCoins()));
+
+        }
 
     }
 
@@ -54,4 +60,5 @@ public final class MinecoinMain extends JavaPlugin {
     public void setConfigSettings(ConfigSettings configSettings) {
         this.configSettings = configSettings;
     }
+
 }

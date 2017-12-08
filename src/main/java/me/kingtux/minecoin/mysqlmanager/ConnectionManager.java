@@ -44,6 +44,9 @@ public class ConnectionManager {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        getCoinsLeft();
+        minecoinMain.getLogger().log(Level.INFO, "Mysql loaded! Good Job!");
+
     }
 
     public Connection createConnection(String host, String port, String database, String username,
@@ -135,4 +138,23 @@ public class ConnectionManager {
             e.printStackTrace();
         }
     }
+
+    public void getCoinsLeft() {
+        int total = 0;
+        ResultSet result = null;
+        try {
+            result = statement.executeQuery("SELECT * FROM PlayerData;");
+            if (result != null) {
+                while (result.next()) {
+                    UUID tempUUID = UUID.fromString(result.getString("uuid"));
+                    total = total + result.getInt("balance");
+
+                }
+                minecoinMain.getConfigSettings().setCoinsLeft(total);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
 }
