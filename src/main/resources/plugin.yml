@@ -1,7 +1,10 @@
-name: McBitCoinAPI
+name: McBitCoin
 version: ${project.version}
-main: me.kingtux.mcbitcoin.McBitCoinAPI
-prefix: [MCBitCoin]
+main: me.kingtux.mcbitcoin.McBitCoin
+prefix: MCBitCoin
 authors: [KingTux]
 description: Have you ever wanted Bitcoin in Minecraft? Well here you have it?
 website: wherkamp.github.io
+commands:
+   balance:
+      description: Get the balance of you or another player, online or offline.
