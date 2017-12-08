@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/McBitCoin.iml" filepath="$PROJECT_DIR$/McBitCoin.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Minecoin.iml" filepath="$PROJECT_DIR$/Minecoin.iml" />
     </modules>
   </component>
 </project>
