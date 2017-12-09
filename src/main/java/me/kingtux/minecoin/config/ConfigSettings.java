@@ -24,12 +24,15 @@ public class ConfigSettings {
             password = configManager.getMainConfig().getString("Password");
 
         } else {
-            coins = configManager.getMainConfig().getInt("Coins");
-            int i = 0;
-            for (String s : configManager.getPlayerConfig().getConfigurationSection("Players").getKeys(false)) {
-                i = i + configManager.getPlayerConfig().getInt("Players." + s);
+            if (configManager.getPlayerConfig().getConfigurationSection("Players") != null) {
+                coins = configManager.getMainConfig().getInt("Coins");
+                int i = 0;
+                for (String s : configManager.getPlayerConfig().getConfigurationSection("Players").getKeys(false)) {
+                    i = i + configManager.getPlayerConfig().getInt("Players." + s);
+                }
+                coinsLeft = coins - i;
             }
-            coinsLeft = coins - i;
+            coinsLeft = coins;
         }
 
     }

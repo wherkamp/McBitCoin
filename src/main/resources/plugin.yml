@@ -1,4 +1,4 @@
-name: MinecoinMain
+name: MineCoin
 version: ${project.version}
 main: me.kingtux.minecoin.MinecoinMain
 prefix: MCBitCoin

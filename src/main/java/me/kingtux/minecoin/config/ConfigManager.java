@@ -36,11 +36,7 @@ public class ConfigManager {
         playerFile = new File(mainclass.getDataFolder(), "playerData.yml");
 
         if (!playerFile.exists()) {
-            try {
-                playerFile.createNewFile();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            mainclass.saveResource("playerData.yml", false);
         }
         playerConfig = new YamlConfiguration();
         try {

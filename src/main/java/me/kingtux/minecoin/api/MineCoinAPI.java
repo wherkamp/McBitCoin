@@ -21,7 +21,7 @@ public class MineCoinAPI {
         if (minecoinMain.getConfigSettings().isUseMySql()) {
             return minecoinMain.getConnectionManager().getPlayerAccountBalance(p);
         } else {
-            return minecoinMain.getConfigSettings().getConfigManager().getPlayerConfig().getInt(p.getUniqueId().toString());
+            return minecoinMain.getConfigSettings().getConfigManager().getPlayerConfig().getInt("Players." + p.getUniqueId().toString());
         }
     }
 
@@ -31,7 +31,7 @@ public class MineCoinAPI {
                 minecoinMain.getConnectionManager().setMoney(p, amount);
                 return true;
             } else {
-                minecoinMain.getConfigSettings().getConfigManager().getPlayerConfig().set(p.getUniqueId().toString(), amount);
+                minecoinMain.getConfigSettings().getConfigManager().getPlayerConfig().set("Players." + p.getUniqueId().toString(), amount);
                 minecoinMain.getConfigSettings().getConfigManager().savePlayerConfig();
                 return true;
             }
@@ -47,7 +47,7 @@ public class MineCoinAPI {
                 minecoinMain.getConnectionManager().addMoney(p, amount);
                 return true;
             } else {
-                minecoinMain.getConfigSettings().getConfigManager().getPlayerConfig().set(p.getUniqueId().toString(), getBalance(p) + amount);
+                minecoinMain.getConfigSettings().getConfigManager().getPlayerConfig().set("Players." + p.getUniqueId().toString(), getBalance(p) + amount);
                 minecoinMain.getConfigSettings().getConfigManager().savePlayerConfig();
                 return true;
             }
@@ -62,7 +62,7 @@ public class MineCoinAPI {
                 minecoinMain.getConnectionManager().removeMoney(p, amount);
                 return true;
             } else {
-                minecoinMain.getConfigSettings().getConfigManager().getPlayerConfig().set(p.getUniqueId().toString(), getBalance(p) - amount);
+                minecoinMain.getConfigSettings().getConfigManager().getPlayerConfig().set("Players." + p.getUniqueId().toString(), getBalance(p) - amount);
                 minecoinMain.getConfigSettings().getConfigManager().savePlayerConfig();
                 return true;
             }
@@ -70,4 +70,22 @@ public class MineCoinAPI {
             return false;
         }
     }
+
+    public boolean createAccount(Player player) {
+        if (minecoinMain.getConfigSettings().getCoinsLeft() >= minecoinMain.getConfigSettings().getCoins()) {
+            if (minecoinMain.getConfigSettings().isUseMySql()) {
+                minecoinMain.getConnectionManager().createPlayerAccount(player);
+                return true;
+            } else {
+                if (!minecoinMain.getConfigSettings().getConfigManager().getPlayerConfig().contains("Players." + player.getUniqueId().toString())) {
+                    minecoinMain.getConfigSettings().getConfigManager().getPlayerConfig().set("Players." + player.getUniqueId().toString(), 0);
+                    minecoinMain.getConfigSettings().getConfigManager().savePlayerConfig();
+                }
+                return true;
+            }
+        } else {
+            return false;
+        }
+    }
+
 }
