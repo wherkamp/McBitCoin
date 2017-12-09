@@ -14,6 +14,6 @@ public class PlayerEvents implements Listener {
 
     @EventHandler
     public void playerJoin(PlayerJoinEvent e) {
-        minecoinMain.getInstance().createAccount(e.getPlayer());
+        minecoinMain.getAPIManager().createAccount(e.getPlayer());
     }
 }

@@ -22,7 +22,7 @@ public class BalanceCommand implements CommandExecutor {
                 Player p = (Player) sender;
                 p.sendMessage(ChatColor.translateAlternateColorCodes('&',
                         "&2Your balance is: " +
-                                String.valueOf(minecoinMain.getInstance().getBalance(p))));
+                                String.valueOf(minecoinMain.getAPIManager().getBalance(p))));
             }
         }
         return false;

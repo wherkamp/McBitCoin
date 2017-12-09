@@ -11,7 +11,7 @@ public class MineCoinAPI {
     }
 
     public static MineCoinAPI getIntance() {
-        return minecoinMain.getInstance();
+        return minecoinMain.getAPIManager();
     }
     public MinecoinMain getMinecoinMain() {
         return minecoinMain;
@@ -57,7 +57,7 @@ public class MineCoinAPI {
     }
 
     public boolean subtractBalance(Player p, int amount) {
-        if (minecoinMain.getConfigSettings().getCoinsLeft() >= minecoinMain.getConfigSettings().getCoins()) {
+
             if (minecoinMain.getConfigSettings().isUseMySql()) {
                 minecoinMain.getConnectionManager().removeMoney(p, amount);
                 return true;
@@ -66,10 +66,8 @@ public class MineCoinAPI {
                 minecoinMain.getConfigSettings().getConfigManager().savePlayerConfig();
                 return true;
             }
-        } else {
-            return false;
-        }
     }
+
 
     public boolean createAccount(Player player) {
         if (minecoinMain.getConfigSettings().getCoinsLeft() >= minecoinMain.getConfigSettings().getCoins()) {

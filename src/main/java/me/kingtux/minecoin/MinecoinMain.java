@@ -16,7 +16,7 @@ public final class MinecoinMain extends JavaPlugin {
     private ConfigSettings configSettings;
     private ConnectionManager connectionManager;
     private ConfigManager configManager;
-    private MineCoinAPI instance;
+    private MineCoinAPI MinecoinAPI;
 
     public ConnectionManager getConnectionManager() {
         return connectionManager;
@@ -37,10 +37,10 @@ public final class MinecoinMain extends JavaPlugin {
         registerEvents();
         if (configSettings.getCoinsLeft() > configSettings.getCoins()) {
             getLogger().log(Level.WARNING, "Lack of Coins in System! Increase coins by "
-                    + String.valueOf(configSettings.getCoinsLeft() - configSettings.getCoins()));
+                    + String.valueOf(configSettings.getCoinsLeft() - configSettings.getCoins()) + ". Not doing this will cause all plugins unable to to to make add or set transactions!");
 
         }
-        instance = new MineCoinAPI(this);
+        MinecoinAPI = new MineCoinAPI(this);
     }
 
     @Override
@@ -68,7 +68,7 @@ public final class MinecoinMain extends JavaPlugin {
         this.configSettings = configSettings;
     }
 
-    public MineCoinAPI getInstance() {
-        return instance;
+    public MineCoinAPI getAPIManager() {
+        return MinecoinAPI;
     }
 }
