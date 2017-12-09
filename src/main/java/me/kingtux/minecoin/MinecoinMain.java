@@ -6,9 +6,11 @@ import me.kingtux.minecoin.commands.CoinecoCommand;
 import me.kingtux.minecoin.config.ConfigManager;
 import me.kingtux.minecoin.config.ConfigSettings;
 import me.kingtux.minecoin.listeners.PlayerEvents;
+import me.kingtux.minecoin.metrics.Metrics;
 import me.kingtux.minecoin.mysqlmanager.ConnectionManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.util.concurrent.Callable;
 import java.util.logging.Level;
 
 
@@ -41,6 +43,17 @@ public final class MinecoinMain extends JavaPlugin {
 
         }
         MinecoinAPI = new MineCoinAPI(this);
+        Metrics metrics = new Metrics(this);
+        metrics.addCustomChart(new Metrics.SimplePie("used_storage_type", new Callable<String>() {
+            @Override
+            public String call() {
+                if (configSettings.isUseMySql()) {
+                    return "Mysql";
+                } else {
+                    return "YAML";
+                }
+            }
+        }));
     }
 
     @Override
