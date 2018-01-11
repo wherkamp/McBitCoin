@@ -22,7 +22,12 @@ public class CoinecoCommand implements CommandExecutor {
                 Player player = (Player) sender;
                 if (args.length == 1) {
                     if (args[0].equalsIgnoreCase("help")) {
-                        player.sendMessage(ChatColor.GREEN + "Options are below and Comming soon!");
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&',
+                                "/coineco give {player} {how_much} Adds to the Player's Balance\n" +
+                                        "/coineco set {player} {new_balance} Set the Player's Balance\n" +
+                                        "/coineco remove {player} {how_much} Removes x amount of money\n" +
+                                        "/coineco balance {player}  Returns the Player Balance"));
+                        return true;
                     }
                 }
                 if (args.length == 3) {
@@ -37,9 +42,8 @@ public class CoinecoCommand implements CommandExecutor {
                             }
                         } else {
                             player.sendMessage(ChatColor.DARK_RED + "Player not found!");
-
-
                         }
+                        return true;
                     } else if (args[0].equalsIgnoreCase("set")) {
                         Player p = Bukkit.getPlayer(args[1]);
                         if (p != null) {
@@ -54,6 +58,8 @@ public class CoinecoCommand implements CommandExecutor {
 
 
                         }
+                        return true;
+
                     } else if (args[0].equalsIgnoreCase("remove")) {
                         Player p = Bukkit.getPlayer(args[1]);
                         if (p != null) {
@@ -66,6 +72,8 @@ public class CoinecoCommand implements CommandExecutor {
                         } else {
                             player.sendMessage(ChatColor.DARK_RED + "Player not found!");
                         }
+                        return true;
+
                     }
                 } else if (args.length == 2) {
                     if (args[0].equalsIgnoreCase("balance")) {
@@ -77,6 +85,7 @@ public class CoinecoCommand implements CommandExecutor {
                     } else {
                         player.sendMessage(ChatColor.DARK_RED + "Player not found!");
                     }
+                    return true;
                 } else {
                     player.sendMessage(ChatColor.RED + "Invalid command! Use /coineco help for help!");
                 }

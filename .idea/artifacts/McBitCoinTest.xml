@@ -1,6 +1,6 @@
 <component name="ArtifactManager">
   <artifact type="jar" name="McBitCoinTest">
-    <output-path>$PROJECT_DIR$/../TestServer/plugins</output-path>
+    <output-path>$PROJECT_DIR$/TestServer/plugins</output-path>
     <root id="archive" name="McBitCoinTest.jar">
       <element id="module-output" name="Minecoin" />
       <element id="file-copy" path="$PROJECT_DIR$/src/main/resources/config.yml" />

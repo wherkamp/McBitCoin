@@ -11,3 +11,5 @@ commands:
       aliases: [bal, coins, coinbal, coinbalance]
    coineco:
       description: Give, Take, get money of people!
+   pay:
+      description: Give someone some money!

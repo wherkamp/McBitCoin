@@ -16,13 +16,13 @@ public class BalanceCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (command.getName().equalsIgnoreCase("balance")) {
+        if (command.getName().equalsIgnoreCase("balance") || command.getName().equalsIgnoreCase("bal")) {
             if (sender instanceof Player) {
                 //The basic command for /balance
                 Player p = (Player) sender;
-                p.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                        "&2Your balance is: " +
-                                String.valueOf(minecoinMain.getAPIManager().getBalance(p))));
+                String balanceMessage = minecoinMain.getConfigSettings().getConfigManager().getMainConfig().getString("Balance-Message");
+                balanceMessage = balanceMessage.replace("{balance}", String.valueOf(minecoinMain.getAPIManager().getBalance(p)));
+                p.sendMessage(ChatColor.translateAlternateColorCodes('&', balanceMessage));
             }
         }
         return false;

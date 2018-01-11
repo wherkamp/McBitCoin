@@ -150,7 +150,6 @@ public class ConnectionManager {
                     total = total + result.getInt("balance");
 
                 }
-                minecoinMain.getConfigSettings().setCoinsLeft(total);
             }
         } catch (SQLException e) {
             e.printStackTrace();

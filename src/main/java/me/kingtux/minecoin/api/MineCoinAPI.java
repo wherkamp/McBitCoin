@@ -18,7 +18,7 @@ public class MineCoinAPI {
     }
 
     public int getBalance(Player p) {
-        if (minecoinMain.getConfigSettings().isUseMySql()) {
+        if (minecoinMain.getConfigSettings().useMySql()) {
             return minecoinMain.getConnectionManager().getPlayerAccountBalance(p);
         } else {
             return minecoinMain.getConfigSettings().getConfigManager().getPlayerConfig().getInt("Players." + p.getUniqueId().toString());
@@ -26,7 +26,7 @@ public class MineCoinAPI {
     }
 
     public boolean setBalance(Player p, int amount) {
-            if (minecoinMain.getConfigSettings().isUseMySql()) {
+        if (minecoinMain.getConfigSettings().useMySql()) {
                 minecoinMain.getConnectionManager().setMoney(p, amount);
                 return true;
             } else {
@@ -39,7 +39,7 @@ public class MineCoinAPI {
 
     public boolean addBalance(Player p, int amount) {
 
-            if (minecoinMain.getConfigSettings().isUseMySql()) {
+        if (minecoinMain.getConfigSettings().useMySql()) {
                 minecoinMain.getConnectionManager().addMoney(p, amount);
                 return true;
             } else {
@@ -51,8 +51,8 @@ public class MineCoinAPI {
     }
 
     public boolean subtractBalance(Player p, int amount) {
-
-            if (minecoinMain.getConfigSettings().isUseMySql()) {
+        if (amount > getBalance(p)) {
+            if (minecoinMain.getConfigSettings().useMySql()) {
                 minecoinMain.getConnectionManager().removeMoney(p, amount);
                 return true;
             } else {
@@ -60,11 +60,14 @@ public class MineCoinAPI {
                 minecoinMain.getConfigSettings().getConfigManager().savePlayerConfig();
                 return true;
             }
+        } else {
+            return false;
+        }
     }
 
 
     public boolean createAccount(Player player) {
-            if (minecoinMain.getConfigSettings().isUseMySql()) {
+        if (minecoinMain.getConfigSettings().useMySql()) {
                 minecoinMain.getConnectionManager().createPlayerAccount(player);
                 return true;
             } else {

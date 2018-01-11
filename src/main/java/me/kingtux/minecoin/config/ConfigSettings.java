@@ -65,7 +65,7 @@ public class ConfigSettings {
         return database;
     }
 
-    public boolean isUseMySql() {
+    public boolean useMySql() {
         return useMySql;
     }
 

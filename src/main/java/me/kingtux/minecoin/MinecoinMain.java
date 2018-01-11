@@ -3,6 +3,7 @@ package me.kingtux.minecoin;
 import me.kingtux.minecoin.api.MineCoinAPI;
 import me.kingtux.minecoin.commands.BalanceCommand;
 import me.kingtux.minecoin.commands.CoinecoCommand;
+import me.kingtux.minecoin.commands.PayCommand;
 import me.kingtux.minecoin.config.ConfigManager;
 import me.kingtux.minecoin.config.ConfigSettings;
 import me.kingtux.minecoin.listeners.PlayerEvents;
@@ -29,25 +30,19 @@ public final class MinecoinMain extends JavaPlugin {
         configManager = new ConfigManager(this);
         configManager.setupConfig();
 
-        if (configSettings.isUseMySql() == true) {
+        if (configSettings.useMySql() == true) {
             connectionManager = new ConnectionManager(this);
         } else {
             getLogger().log(Level.INFO, "You are not using Mysql. I recommend you change to Mysql");
         }
-        System.out.println(configSettings.toString());
         registerCommands();
         registerEvents();
-        if (configSettings.getCoinsLeft() > configSettings.getCoins()) {
-            getLogger().log(Level.WARNING, "Lack of Coins in System! Increase coins by "
-                    + String.valueOf(configSettings.getCoinsLeft() - configSettings.getCoins()) + ". Not doing this will cause all plugins unable to to to make add or set transactions!");
-
-        }
         MinecoinAPI = new MineCoinAPI(this);
         Metrics metrics = new Metrics(this);
         metrics.addCustomChart(new Metrics.SimplePie("used_storage_type", new Callable<String>() {
             @Override
             public String call() {
-                if (configSettings.isUseMySql()) {
+                if (configSettings.useMySql()) {
                     return "Mysql";
                 } else {
                     return "YAML";
@@ -58,7 +53,7 @@ public final class MinecoinMain extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        if (!configSettings.isUseMySql()) {
+        if (!configSettings.useMySql()) {
             configManager.savePlayerConfig();
         }
 
@@ -67,6 +62,7 @@ public final class MinecoinMain extends JavaPlugin {
     private void registerCommands() {
         getCommand("balance").setExecutor(new BalanceCommand(this));
         getCommand("coineco").setExecutor(new CoinecoCommand(this));
+        getCommand("pay").setExecutor(new PayCommand(this));
     }
 
     private void registerEvents() {
