@@ -26,7 +26,6 @@ public class MineCoinAPI {
     }
 
     public boolean setBalance(Player p, int amount) {
-        if (minecoinMain.getConfigSettings().getCoinsLeft() >= minecoinMain.getConfigSettings().getCoins()) {
             if (minecoinMain.getConfigSettings().isUseMySql()) {
                 minecoinMain.getConnectionManager().setMoney(p, amount);
                 return true;
@@ -35,13 +34,10 @@ public class MineCoinAPI {
                 minecoinMain.getConfigSettings().getConfigManager().savePlayerConfig();
                 return true;
             }
-        } else {
-            return false;
-        }
+
     }
 
     public boolean addBalance(Player p, int amount) {
-        if (minecoinMain.getConfigSettings().getCoinsLeft() >= minecoinMain.getConfigSettings().getCoins()) {
 
             if (minecoinMain.getConfigSettings().isUseMySql()) {
                 minecoinMain.getConnectionManager().addMoney(p, amount);
@@ -51,9 +47,7 @@ public class MineCoinAPI {
                 minecoinMain.getConfigSettings().getConfigManager().savePlayerConfig();
                 return true;
             }
-        } else {
-            return false;
-        }
+
     }
 
     public boolean subtractBalance(Player p, int amount) {
@@ -70,7 +64,6 @@ public class MineCoinAPI {
 
 
     public boolean createAccount(Player player) {
-        if (minecoinMain.getConfigSettings().getCoinsLeft() >= minecoinMain.getConfigSettings().getCoins()) {
             if (minecoinMain.getConfigSettings().isUseMySql()) {
                 minecoinMain.getConnectionManager().createPlayerAccount(player);
                 return true;
@@ -81,9 +74,5 @@ public class MineCoinAPI {
                 }
                 return true;
             }
-        } else {
-            return false;
         }
-    }
-
 }

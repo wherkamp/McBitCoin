@@ -54,7 +54,6 @@ public class ConfigSettings {
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 ", database='" + database + '\'' +
-                ", coins=" + coins +
                 ", configManager=" + configManager +
                 '}';
     }

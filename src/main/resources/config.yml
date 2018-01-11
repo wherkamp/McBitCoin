@@ -6,6 +6,3 @@ Port: 3306
 User: 'root'
 Password: 'Your_Password_Goes_Here_1234'
 Database: 'MCBitCoin'
-#The hire number of coins the less worth the are.
-#That is how the economy works.
-Coins: 100
