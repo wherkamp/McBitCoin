@@ -4,8 +4,6 @@ package me.kingtux.minecoin.config;
 public class ConfigSettings {
     private boolean useMySql;
     private String host, port, username, password, database;
-    private int coins;
-    private int coinsLeft;
     private ConfigManager configManager;
 
     public ConfigSettings(ConfigManager configManager) {
@@ -23,16 +21,6 @@ public class ConfigSettings {
             username = configManager.getMainConfig().getString("User");
             password = configManager.getMainConfig().getString("Password");
 
-        } else {
-            if (configManager.getPlayerConfig().getConfigurationSection("Players") != null) {
-                coins = configManager.getMainConfig().getInt("Coins");
-                int i = 0;
-                for (String s : configManager.getPlayerConfig().getConfigurationSection("Players").getKeys(false)) {
-                    i = i + configManager.getPlayerConfig().getInt("Players." + s);
-                }
-                coinsLeft = coins - i;
-            }
-            coinsLeft = coins;
         }
 
     }
@@ -53,10 +41,6 @@ public class ConfigSettings {
         return password;
     }
 
-    public int getCoins() {
-        return coins;
-    }
-
     public ConfigManager getConfigManager() {
         return configManager;
     }
@@ -75,10 +59,6 @@ public class ConfigSettings {
                 '}';
     }
 
-    public int getCoinsLeft() {
-        return coinsLeft;
-    }
-
     public void reloadConfig() {
     }
 
@@ -90,7 +70,4 @@ public class ConfigSettings {
         return useMySql;
     }
 
-    public void setCoinsLeft(int coinsLeft) {
-        coinsLeft = coinsLeft;
-    }
 }
