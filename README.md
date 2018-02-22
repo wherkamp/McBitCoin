@@ -7,4 +7,9 @@ Support:
 
 Documents: https://docs.kingtux.me/minecoin/
 
-Example
+Example: 
+```
+        MineCoinAPI mineCoinAPI = MineCoinAPI.getInstance();
+        mineCoinAPI.addBalance(e.getPlayer(), 2);
+        mineCoinAPI.subtractBalance(e.getPlayer(), 1);
+        e.getPlayer().sendMessage("Your Balance is: " + mineCoinAPI.getBalance(e.getPlayer()));```
