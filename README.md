@@ -4,3 +4,7 @@ I originally created this to be a secondary type of Economy however, it does not
 Metrics link: https://bstats.org/plugin/bukkit/Minecoin/
 Support:
 [![Discord](https://imgur.com/MFRRBn4.png)](https://discord.gg/dcZfcSK)
+
+Documents: https://docs.kingtux.me/minecoin/
+
+Example

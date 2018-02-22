@@ -3,20 +3,40 @@ package me.kingtux.minecoin.api;
 import me.kingtux.minecoin.MinecoinMain;
 import org.bukkit.entity.Player;
 
+/**
+ * @author KingTux
+ */
 public class MineCoinAPI {
     private static MinecoinMain minecoinMain;
 
+    /**
+     * @param plugin MinecoinMain
+     */
     public MineCoinAPI(MinecoinMain plugin) {
         minecoinMain = plugin;
     }
 
-    public static MineCoinAPI getIntance() {
+    /**
+     *
+     * @return The instance of MineCoinAPI
+     */
+    public static MineCoinAPI getInstance() {
         return minecoinMain.getAPIManager();
     }
+
+    /**
+     *
+     * @return The MineCoinMain instance
+     */
     public MinecoinMain getMinecoinMain() {
         return minecoinMain;
     }
 
+    /**
+     *
+     * @param p
+     * @return The balance of the player
+     */
     public int getBalance(Player p) {
         if (minecoinMain.getConfigSettings().useMySql()) {
             return minecoinMain.getConnectionManager().getPlayerAccountBalance(p);
@@ -25,31 +45,49 @@ public class MineCoinAPI {
         }
     }
 
+    /**
+     *
+     * @param p The player
+     * @param amount The new Balance
+     * @return If it was a success
+     */
     public boolean setBalance(Player p, int amount) {
         if (minecoinMain.getConfigSettings().useMySql()) {
-                minecoinMain.getConnectionManager().setMoney(p, amount);
-                return true;
-            } else {
-                minecoinMain.getConfigSettings().getConfigManager().getPlayerConfig().set("Players." + p.getUniqueId().toString(), amount);
-                minecoinMain.getConfigSettings().getConfigManager().savePlayerConfig();
-                return true;
-            }
+            minecoinMain.getConnectionManager().setMoney(p, amount);
+            return true;
+        } else {
+            minecoinMain.getConfigSettings().getConfigManager().getPlayerConfig().set("Players." + p.getUniqueId().toString(), amount);
+            minecoinMain.getConfigSettings().getConfigManager().savePlayerConfig();
+            return true;
+        }
 
     }
 
+    /**
+     *
+     * @param p The player
+     * @param amount The amount
+     * @return True or false if was success
+     */
     public boolean addBalance(Player p, int amount) {
 
         if (minecoinMain.getConfigSettings().useMySql()) {
-                minecoinMain.getConnectionManager().addMoney(p, amount);
-                return true;
-            } else {
-                minecoinMain.getConfigSettings().getConfigManager().getPlayerConfig().set("Players." + p.getUniqueId().toString(), getBalance(p) + amount);
-                minecoinMain.getConfigSettings().getConfigManager().savePlayerConfig();
-                return true;
-            }
+            minecoinMain.getConnectionManager().addMoney(p, amount);
+            return true;
+        } else {
+            minecoinMain.getConfigSettings().getConfigManager().getPlayerConfig().set("Players." + p.getUniqueId().toString(), getBalance(p) + amount);
+            minecoinMain.getConfigSettings().getConfigManager().savePlayerConfig();
+            return true;
+        }
 
     }
 
+    /**
+     *
+     * @param p The player
+     * @param amount amount to remmove
+     * @return true or false if transaction was a success
+     */
     public boolean subtractBalance(Player p, int amount) {
         if (amount > getBalance(p)) {
             if (minecoinMain.getConfigSettings().useMySql()) {
@@ -65,17 +103,21 @@ public class MineCoinAPI {
         }
     }
 
-
+    /**
+     * @apiNote Doing this could ruin the data
+     * @param player The player to create an account for
+     * @return if was a success
+     */
     public boolean createAccount(Player player) {
         if (minecoinMain.getConfigSettings().useMySql()) {
-                minecoinMain.getConnectionManager().createPlayerAccount(player);
-                return true;
-            } else {
-                if (!minecoinMain.getConfigSettings().getConfigManager().getPlayerConfig().contains("Players." + player.getUniqueId().toString())) {
-                    minecoinMain.getConfigSettings().getConfigManager().getPlayerConfig().set("Players." + player.getUniqueId().toString(), 0);
-                    minecoinMain.getConfigSettings().getConfigManager().savePlayerConfig();
-                }
-                return true;
+            minecoinMain.getConnectionManager().createPlayerAccount(player);
+            return true;
+        } else {
+            if (!minecoinMain.getConfigSettings().getConfigManager().getPlayerConfig().contains("Players." + player.getUniqueId().toString())) {
+                minecoinMain.getConfigSettings().getConfigManager().getPlayerConfig().set("Players." + player.getUniqueId().toString(), 0);
+                minecoinMain.getConfigSettings().getConfigManager().savePlayerConfig();
             }
+            return true;
         }
+    }
 }
