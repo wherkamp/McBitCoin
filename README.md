@@ -19,7 +19,9 @@ Maven Info
       <artifactId>minecoin</artifactId>
       <version>1.0</version>
       <scope>provided</scope>
-    </dependency>```
+    </dependency>
+    ```
+    
 Example: 
 ```
         MineCoinAPI mineCoinAPI = MineCoinAPI.getInstance();
