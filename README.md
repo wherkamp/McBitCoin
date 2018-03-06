@@ -6,7 +6,22 @@ Support:
 [![Discord](https://imgur.com/MFRRBn4.png)](https://discord.gg/dcZfcSK)
 
 Documents: https://docs.kingtux.me/minecoin/
-
+Maven Info
+```
+    
+    <repository>
+      <id>KingTux</id>
+      <url>http://nexus.kingtux.me/repository/maven-releases/</url>
+    </repository>
+    
+    <dependency>
+      <groupId>me.kingtux</groupId>
+      <artifactId>minecoin</artifactId>
+      <version>1.0</version>
+      <scope>provided</scope>
+    </dependency>
+    ```
+    
 Example: 
 ```
         MineCoinAPI mineCoinAPI = MineCoinAPI.getInstance();
