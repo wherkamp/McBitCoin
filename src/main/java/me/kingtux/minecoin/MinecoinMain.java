@@ -1,5 +1,6 @@
 package me.kingtux.minecoin;
 
+import be.maximvdw.placeholderapi.PlaceholderAPI;
 import me.kingtux.minecoin.api.MineCoinAPI;
 import me.kingtux.minecoin.commands.BalanceCommand;
 import me.kingtux.minecoin.commands.CoinecoCommand;
@@ -9,6 +10,9 @@ import me.kingtux.minecoin.config.ConfigSettings;
 import me.kingtux.minecoin.listeners.PlayerEvents;
 import me.kingtux.minecoin.metrics.Metrics;
 import me.kingtux.minecoin.mysqlmanager.ConnectionManager;
+import me.kingtux.minecoin.placeholders.MVdWPlaceholder;
+import me.kingtux.minecoin.placeholders.PlaceHolderAPIPlaceHolder;
+import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.concurrent.Callable;
@@ -49,6 +53,16 @@ public final class MinecoinMain extends JavaPlugin {
                 }
             }
         }));
+        loadPlaceHolders();
+    }
+
+    private void loadPlaceHolders() {
+        if (Bukkit.getPluginManager().isPluginEnabled("MVdWPlaceholderAPI")) {
+            PlaceholderAPI.registerPlaceholder(this, "mcbalance", new MVdWPlaceholder(this));
+        }
+        if (getServer().getPluginManager().isPluginEnabled("PlaceholderAPI")) {
+            me.clip.placeholderapi.PlaceholderAPI.registerPlaceholderHook(this, new PlaceHolderAPIPlaceHolder(this));
+        }
     }
 
     @Override

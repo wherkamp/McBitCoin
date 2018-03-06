@@ -1,6 +1,7 @@
 package me.kingtux.minecoin.mysqlmanager;
 
 import me.kingtux.minecoin.MinecoinMain;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
 import java.sql.*;
@@ -44,7 +45,6 @@ public class ConnectionManager {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        getCoinsLeft();
         minecoinMain.getLogger().log(Level.INFO, "Mysql loaded! Good Job!");
 
     }
@@ -68,7 +68,7 @@ public class ConnectionManager {
         return connection;
     }
 
-    public int getPlayerAccountBalance(Player p) {
+    public int getPlayerAccountBalance(OfflinePlayer p) {
         int PlayerBalance = 0;
         UUID pUUID = p.getUniqueId();
         ResultSet result = null;
@@ -101,7 +101,7 @@ public class ConnectionManager {
         }
     }
 
-    public void addMoney(Player p, int amount) {
+    public void addMoney(OfflinePlayer p, int amount) {
         UUID pUUID = p.getUniqueId();
         amount = amount + getPlayerAccountBalance(p);
         try {
@@ -114,7 +114,7 @@ public class ConnectionManager {
         }
     }
 
-    public void removeMoney(Player p, int amount) {
+    public void removeMoney(OfflinePlayer p, int amount) {
         UUID pUUID = p.getUniqueId();
         amount = getPlayerAccountBalance(p) - amount;
         try {
@@ -127,7 +127,7 @@ public class ConnectionManager {
         }
     }
 
-    public void setMoney(Player p, int amount) {
+    public void setMoney(OfflinePlayer p, int amount) {
         UUID pUUID = p.getUniqueId();
         try {
             ResultSet rs = statement.executeQuery("SELECT uuid FROM PlayerData WHERE uuid='" + pUUID + "'");
@@ -139,21 +139,21 @@ public class ConnectionManager {
         }
     }
 
-    public void getCoinsLeft() {
-        int total = 0;
+
+    public boolean hasAccount(UUID uuid) {
         ResultSet result = null;
         try {
-            result = statement.executeQuery("SELECT * FROM PlayerData;");
+            result = statement.executeQuery("SELECT * FROM PlayerData WHERE uuid=" + uuid + ";");
             if (result != null) {
-                while (result.next()) {
-                    UUID tempUUID = UUID.fromString(result.getString("uuid"));
-                    total = total + result.getInt("balance");
-
-                }
+                return true;
+            } else {
+                return false;
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return false;
     }
+
 
 }

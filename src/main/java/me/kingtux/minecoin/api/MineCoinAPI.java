@@ -1,6 +1,7 @@
 package me.kingtux.minecoin.api;
 
 import me.kingtux.minecoin.MinecoinMain;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
 /**
@@ -34,7 +35,7 @@ public class MineCoinAPI {
      * @param p The player to get the balance of
      * @return The balance of the player
      */
-    public int getBalance(Player p) {
+    public int getBalance(OfflinePlayer p) {
         if (p == null) {
             return 0;
         }
@@ -50,7 +51,7 @@ public class MineCoinAPI {
      * @param amount The new Balance
      * @return If it was a success
      */
-    public boolean setBalance(Player p, int amount) {
+    public boolean setBalance(OfflinePlayer p, int amount) {
         if (p == null) {
             return false;
         }
@@ -70,7 +71,7 @@ public class MineCoinAPI {
      * @param amount The amount
      * @return True or false if was success
      */
-    public boolean addBalance(Player p, int amount) {
+    public boolean addBalance(OfflinePlayer p, int amount) {
         if (p == null) {
             return false;
         }
@@ -86,12 +87,27 @@ public class MineCoinAPI {
 
     }
 
+    public boolean hasAccount(OfflinePlayer player) {
+        if (player == null) {
+            return false;
+        }
+        if (minecoinMain.getConfigSettings().useMySql()) {
+            return minecoinMain.getConnectionManager().hasAccount(player.getUniqueId());
+        } else {
+            if (!minecoinMain.getConfigSettings().getConfigManager().getPlayerConfig().contains("Players." + player.getUniqueId().toString())) {
+                return false;
+            } else {
+                return true;
+            }
+        }
+    }
+
     /**
      * @param p      The player
      * @param amount amount to remmove
      * @return true or false if transaction was a success
      */
-    public boolean subtractBalance(Player p, int amount) {
+    public boolean subtractBalance(OfflinePlayer p, int amount) {
         if (p == null) {
             return false;
         }
@@ -110,7 +126,7 @@ public class MineCoinAPI {
     }
 
     /**
-     * apiNote Doing this could ruin the data
+     * Run hasAccount first so you don't ruin data
      *
      * @param player The player to create an account for
      * @return if was a success
