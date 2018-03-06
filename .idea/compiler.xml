@@ -7,11 +7,12 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="McBitCoin" />
-        <module name="Minecoin" />
+        <module name="minecoin" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="McBitCoin" target="1.8" />
+      <module name="minecoin" target="1.8" />
       <module name="Minecoin" target="1.8" />
     </bytecodeTargetLevel>
   </component>
