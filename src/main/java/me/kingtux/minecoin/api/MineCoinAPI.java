@@ -87,6 +87,10 @@ public class MineCoinAPI {
 
     }
 
+    /**
+     * @param player The Player to test
+     * @return True of false if they have a account
+     */
     public boolean hasAccount(OfflinePlayer player) {
         if (player == null) {
             return false;

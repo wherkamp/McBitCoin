@@ -1,6 +1,5 @@
 package me.kingtux.minecoin;
 
-import be.maximvdw.placeholderapi.PlaceholderAPI;
 import me.kingtux.minecoin.api.MineCoinAPI;
 import me.kingtux.minecoin.commands.BalanceCommand;
 import me.kingtux.minecoin.commands.CoinecoCommand;
@@ -12,7 +11,6 @@ import me.kingtux.minecoin.metrics.Metrics;
 import me.kingtux.minecoin.mysqlmanager.ConnectionManager;
 import me.kingtux.minecoin.placeholders.MVdWPlaceholder;
 import me.kingtux.minecoin.placeholders.PlaceHolderAPIPlaceHolder;
-import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.concurrent.Callable;
@@ -53,17 +51,35 @@ public final class MinecoinMain extends JavaPlugin {
                 }
             }
         }));
-        loadPlaceHolders();
+        getServer().getScheduler().runTaskLater(this, new Runnable() {
+            @Override
+            public void run() {
+                loadPlaceHolders();
+            }
+        }, 1);
+
     }
 
     private void loadPlaceHolders() {
-        if (Bukkit.getPluginManager().isPluginEnabled("MVdWPlaceholderAPI")) {
-            PlaceholderAPI.registerPlaceholder(this, "mcbalance", new MVdWPlaceholder(this));
+        //Run on first tick to make sure plugin is loaded
+
+        if (getServer().getPluginManager().isPluginEnabled("MVdWPlaceholderAPI")) {
+            getLogger().log(Level.INFO, "MVdWPlaceholderAPI found");
+            new PlaceHodlerLoader(this).loadMVdwPlaceHolders();
+        } else {
+            getLogger().log(Level.INFO, "MVdWPlaceholderAPI not found");
         }
         if (getServer().getPluginManager().isPluginEnabled("PlaceholderAPI")) {
-            me.clip.placeholderapi.PlaceholderAPI.registerPlaceholderHook(this, new PlaceHolderAPIPlaceHolder(this));
+            getLogger().log(Level.INFO, "PlayerHolderAPI found");
+            new PlaceHodlerLoader(this).loadPlaceHolderAPI();
+        } else {
+            getLogger().log(Level.INFO, "PlaceHolderAPI not found");
         }
+        getLogger().log(Level.INFO, "Placeholders loaded");
+
+
     }
+
 
     @Override
     public void onDisable() {
@@ -93,5 +109,23 @@ public final class MinecoinMain extends JavaPlugin {
 
     public MineCoinAPI getAPIManager() {
         return MinecoinAPI;
+    }
+}
+
+
+class PlaceHodlerLoader {
+    private MinecoinMain plugin;
+
+    public PlaceHodlerLoader(MinecoinMain plugin) {
+        this.plugin = plugin;
+    }
+
+    public void loadMVdwPlaceHolders() {
+        be.maximvdw.placeholderapi.PlaceholderAPI.registerPlaceholder(plugin, "mcbalance", new MVdWPlaceholder(plugin));
+    }
+
+    public void loadPlaceHolderAPI() {
+        me.clip.placeholderapi.PlaceholderAPI.registerPlaceholderHook(plugin, new PlaceHolderAPIPlaceHolder(plugin));
+
     }
 }
