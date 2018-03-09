@@ -10,7 +10,7 @@ Documents: https://docs.kingtux.me/minecoin/
 ```
     <repository>
       <id>KingTux</id>
-      <url>http://nexus.kingtux.me/repository/maven-releases/</url>
+      <url>http://repo.kingtux.me/repository/maven-releases/</url>
     </repository>
     
     <dependency>
