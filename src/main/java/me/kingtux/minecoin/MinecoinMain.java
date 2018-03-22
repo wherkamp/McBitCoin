@@ -13,6 +13,11 @@ import me.kingtux.minecoin.placeholders.MVdWPlaceholder;
 import me.kingtux.minecoin.placeholders.PlaceHolderAPIPlaceHolder;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.concurrent.Callable;
 import java.util.logging.Level;
 
@@ -29,6 +34,15 @@ public final class MinecoinMain extends JavaPlugin {
 
     @Override
     public void onEnable() {
+        try {
+            if (isUpTodate()) {
+                getLogger().log(Level.INFO, "You are ok and up to date");
+            } else {
+                getLogger().log(Level.WARNING, "You are not up to date. I recommend updating.");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         configManager = new ConfigManager(this);
         configManager.setupConfig();
 
@@ -87,6 +101,26 @@ public final class MinecoinMain extends JavaPlugin {
             configManager.savePlayerConfig();
         }
 
+    }
+
+    private boolean isUpTodate() throws IOException {
+        URL url = null;
+        url = new URL("https://api.spigotmc.org/legacy/update.php?resource=53646");
+        URLConnection urlConnection = url.openConnection();
+        urlConnection.connect();
+        BufferedReader br = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
+        String reply;
+        while ((reply = br.readLine()) != null) {
+            if (Double.parseDouble(reply) == Double.parseDouble(this.getDescription().getVersion())) {
+                return true;
+            } else if (Double.parseDouble(reply) < Double.parseDouble(this.getDescription().getVersion())) {
+                getLogger().log(Level.INFO, "You are using a dev Version");
+                return true;
+            } else {
+                return false;
+            }
+        }
+        return false;
     }
 
     private void registerCommands() {

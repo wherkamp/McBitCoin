@@ -1,12 +1,12 @@
 name: MineCoin
-version: ${project.version}
+version: 1.2
 main: me.kingtux.minecoin.MinecoinMain
-prefix: MCBitCoin
+prefix: MineCoin
 softdepend: [PlaceholderAPI, MVdWPlaceholderAPI]
 loadbefore: [PlaceholderAPI, MVdWPlaceholderAPI]
 authors: [KingTux]
-description: Have you ever wanted a Cryto Currency in Minecraft? Well here you have it?
-website: wherkamp.github.io
+description: A Secondary Currency for your Server
+website: https://kingtux.me
 commands:
    balance:
       description: Get the balance of you!
