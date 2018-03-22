@@ -65,13 +65,13 @@ public final class MinecoinMain extends JavaPlugin {
 
         if (getServer().getPluginManager().isPluginEnabled("MVdWPlaceholderAPI")) {
             getLogger().log(Level.INFO, "MVdWPlaceholderAPI found");
-            new PlaceHodlerLoader(this).loadMVdwPlaceHolders();
+            new PlaceholderLoader(this).loadMVdwPlaceHolders();
         } else {
             getLogger().log(Level.INFO, "MVdWPlaceholderAPI not found");
         }
         if (getServer().getPluginManager().isPluginEnabled("PlaceholderAPI")) {
             getLogger().log(Level.INFO, "PlayerHolderAPI found");
-            new PlaceHodlerLoader(this).loadPlaceHolderAPI();
+            new PlaceholderLoader(this).loadPlaceHolderAPI();
         } else {
             getLogger().log(Level.INFO, "PlaceHolderAPI not found");
         }
@@ -113,10 +113,10 @@ public final class MinecoinMain extends JavaPlugin {
 }
 
 
-class PlaceHodlerLoader {
+class PlaceholderLoader {
     private MinecoinMain plugin;
 
-    public PlaceHodlerLoader(MinecoinMain plugin) {
+    public PlaceholderLoader(MinecoinMain plugin) {
         this.plugin = plugin;
     }
 
@@ -125,7 +125,6 @@ class PlaceHodlerLoader {
     }
 
     public void loadPlaceHolderAPI() {
-        me.clip.placeholderapi.PlaceholderAPI.registerPlaceholderHook(plugin, new PlaceHolderAPIPlaceHolder(plugin));
-
+        new PlaceHolderAPIPlaceHolder().register();
     }
 }

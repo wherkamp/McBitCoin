@@ -1,19 +1,22 @@
 package me.kingtux.minecoin.placeholders;
 
-import me.clip.placeholderapi.PlaceholderHook;
+import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import me.kingtux.minecoin.MinecoinMain;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
-public class PlaceHolderAPIPlaceHolder extends PlaceholderHook {
+public class PlaceHolderAPIPlaceHolder extends PlaceholderExpansion {
+
     private MinecoinMain plugin;
 
-    public PlaceHolderAPIPlaceHolder(MinecoinMain plugin) {
-        this.plugin = plugin;
+    public PlaceHolderAPIPlaceHolder() {
+        plugin = (MinecoinMain) Bukkit.getPluginManager().getPlugin(getPlugin());
     }
 
+    // %minecoin_balance%
     @Override
     public String onPlaceholderRequest(Player player, String s) {
-        if (s.equalsIgnoreCase("mcbalance")) {
+        if (s.equalsIgnoreCase("balance")) {
             if (player != null) {
                 if (plugin.getAPIManager().hasAccount(player)) {
                     return String.valueOf(plugin.getAPIManager().getBalance(player));
@@ -22,5 +25,25 @@ public class PlaceHolderAPIPlaceHolder extends PlaceholderHook {
             return "0";
         }
         return null;
+    }
+
+    @Override
+    public String getIdentifier() {
+        return "minecoin";
+    }
+
+    @Override
+    public String getPlugin() {
+        return "MineCoin";
+    }
+
+    @Override
+    public String getAuthor() {
+        return "KingTux";
+    }
+
+    @Override
+    public String getVersion() {
+        return plugin.getDescription().getVersion();
     }
 }
