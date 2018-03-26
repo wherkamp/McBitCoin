@@ -22,8 +22,4 @@ Documents: https://docs.kingtux.me/minecoin/
     </dependency>
 ```
 # Example: 
-```
-        MineCoinAPI mineCoinAPI = MineCoinAPI.getInstance();
-        mineCoinAPI.addBalance(e.getPlayer(), 2);
-        mineCoinAPI.subtractBalance(e.getPlayer(), 1);
-        e.getPlayer().sendMessage("Your Balance is: " + mineCoinAPI.getBalance(e.getPlayer()));```
+To See the example go here. [Example](https://github.com/wherkamp/Minecoin/blob/master/MCTest/src/main/java/me/kingtux/minecointest/MineCoinTest.java)

@@ -1,6 +1,5 @@
-package me.kingtux.minecoin.api;
+package me.kingtux.minecoin;
 
-import me.kingtux.minecoin.MineCoinMain;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
@@ -8,28 +7,34 @@ import org.bukkit.entity.Player;
  * @author KingTux
  */
 public class MineCoinAPI {
-    private static MineCoinMain mineCoinMain;
+    private MineCoinMain mineCoinMain;
+
+    public MineCoinAPI() {
+        mineCoinMain = null;
+        try {
+            throw new IllegalAccessException("You may not access this");
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+    }
 
     /**
      * @param plugin MineCoinMain
      */
-    public MineCoinAPI(MineCoinMain plugin) {
+    protected MineCoinAPI(MineCoinMain plugin) {
         mineCoinMain = plugin;
     }
 
     /**
      * @return The instance of MineCoinAPI
      */
-    public static MineCoinAPI getInstance() {
+    public MineCoinAPI getInstance() {
         return mineCoinMain.getAPIManager();
     }
 
     /**
      * @return The MineCoinMain instance
      */
-    public MineCoinMain getMinecoinMain() {
-        return mineCoinMain;
-    }
 
     /**
      * @param p The player to get the balance of
