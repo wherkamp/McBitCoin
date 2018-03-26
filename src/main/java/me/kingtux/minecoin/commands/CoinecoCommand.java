@@ -1,6 +1,6 @@
 package me.kingtux.minecoin.commands;
 
-import me.kingtux.minecoin.MinecoinMain;
+import me.kingtux.minecoin.MineCoinMain;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -9,10 +9,10 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 public class CoinecoCommand implements CommandExecutor {
-    private MinecoinMain minecoinMain;
+    private MineCoinMain mineCoinMain;
 
-    public CoinecoCommand(MinecoinMain pl) {
-        minecoinMain = pl;
+    public CoinecoCommand(MineCoinMain pl) {
+        mineCoinMain = pl;
     }
 
     @Override
@@ -34,7 +34,7 @@ public class CoinecoCommand implements CommandExecutor {
                     if (args[0].equalsIgnoreCase("give")) {
                         Player p = Bukkit.getPlayer(args[1]);
                         if (p != null) {
-                            boolean worked = minecoinMain.getAPIManager().addBalance(p, Integer.valueOf(args[2]));
+                            boolean worked = mineCoinMain.getAPIManager().addBalance(p, Integer.valueOf(args[2]));
                             if (worked) {
                                 player.sendMessage(ChatColor.DARK_GREEN + "Transaction was a success!");
                             } else {
@@ -47,7 +47,7 @@ public class CoinecoCommand implements CommandExecutor {
                     } else if (args[0].equalsIgnoreCase("set")) {
                         Player p = Bukkit.getPlayer(args[1]);
                         if (p != null) {
-                            boolean worked = minecoinMain.getAPIManager().setBalance(p, Integer.valueOf(args[2]));
+                            boolean worked = mineCoinMain.getAPIManager().setBalance(p, Integer.valueOf(args[2]));
                             if (worked) {
                                 player.sendMessage(ChatColor.DARK_GREEN + "Transaction was a success!");
                             } else {
@@ -63,7 +63,7 @@ public class CoinecoCommand implements CommandExecutor {
                     } else if (args[0].equalsIgnoreCase("remove")) {
                         Player p = Bukkit.getPlayer(args[1]);
                         if (p != null) {
-                            boolean worked = minecoinMain.getAPIManager().subtractBalance(p, Integer.valueOf(args[2]));
+                            boolean worked = mineCoinMain.getAPIManager().subtractBalance(p, Integer.valueOf(args[2]));
                             if (worked) {
                                 player.sendMessage(ChatColor.DARK_GREEN + "Transaction was a success!");
                             } else {
@@ -79,7 +79,7 @@ public class CoinecoCommand implements CommandExecutor {
                     if (args[0].equalsIgnoreCase("balance")) {
                         Player p = Bukkit.getPlayer(args[1]);
                         if (p != null) {
-                            String money = String.valueOf(minecoinMain.getAPIManager().getBalance(p));
+                            String money = String.valueOf(mineCoinMain.getAPIManager().getBalance(p));
                             player.sendMessage(ChatColor.DARK_GREEN + "The balance of your partner is: " + money);
                         }
                     } else {

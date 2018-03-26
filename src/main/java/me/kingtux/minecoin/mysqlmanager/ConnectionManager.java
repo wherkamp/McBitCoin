@@ -1,6 +1,6 @@
 package me.kingtux.minecoin.mysqlmanager;
 
-import me.kingtux.minecoin.MinecoinMain;
+import me.kingtux.minecoin.MineCoinMain;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
@@ -9,15 +9,15 @@ import java.util.UUID;
 import java.util.logging.Level;
 
 public class ConnectionManager {
-    private MinecoinMain minecoinMain;
+    private MineCoinMain mineCoinMain;
     private Statement statement;
     private Connection connection;
 
-    public ConnectionManager(MinecoinMain minecoinMain) {
-        this.minecoinMain = minecoinMain;
+    public ConnectionManager(MineCoinMain mineCoinMain) {
+        this.mineCoinMain = mineCoinMain;
         try {
-            connection = createConnection(minecoinMain.getConfigSettings().getHost(), minecoinMain.getConfigSettings().getPort()
-                    , minecoinMain.getConfigSettings().getDatabase(), minecoinMain.getConfigSettings().getUsername(), minecoinMain.getConfigSettings().getPassword());
+            connection = createConnection(mineCoinMain.getConfigSettings().getHost(), mineCoinMain.getConfigSettings().getPort()
+                    , mineCoinMain.getConfigSettings().getDatabase(), mineCoinMain.getConfigSettings().getUsername(), mineCoinMain.getConfigSettings().getPassword());
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         } catch (SQLException e) {
@@ -35,7 +35,7 @@ public class ConnectionManager {
             dbm = connection.getMetaData();
             ResultSet tables = dbm.getTables(null, null, "PlayerData", null);
             if (tables.next()) {
-                minecoinMain.getLogger().log(Level.INFO, "Table already created");
+                mineCoinMain.getLogger().log(Level.INFO, "Table already created");
             } else {
                 statement.execute("CREATE TABLE IF NOT EXISTS `PlayerData` (" +
                         "`uuid` TEXT," +
@@ -45,7 +45,7 @@ public class ConnectionManager {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        minecoinMain.getLogger().log(Level.INFO, "Mysql loaded! Good Job!");
+        mineCoinMain.getLogger().log(Level.INFO, "Mysql loaded! Good Job!");
 
     }
 

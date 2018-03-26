@@ -1,16 +1,15 @@
 package me.kingtux.minecoin.placeholders;
 
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
-import me.kingtux.minecoin.MinecoinMain;
-import org.bukkit.Bukkit;
+import me.kingtux.minecoin.MineCoinMain;
 import org.bukkit.entity.Player;
 
 public class PlaceHolderAPIPlaceHolder extends PlaceholderExpansion {
 
-    private MinecoinMain plugin;
+    private MineCoinMain plugin;
 
-    public PlaceHolderAPIPlaceHolder() {
-        plugin = (MinecoinMain) Bukkit.getPluginManager().getPlugin(getPlugin());
+    public PlaceHolderAPIPlaceHolder(MineCoinMain pl) {
+        plugin = pl;
     }
 
     // %minecoin_balance%

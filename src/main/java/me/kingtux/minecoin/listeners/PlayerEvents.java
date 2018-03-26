@@ -1,19 +1,19 @@
 package me.kingtux.minecoin.listeners;
 
-import me.kingtux.minecoin.MinecoinMain;
+import me.kingtux.minecoin.MineCoinMain;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 
 public class PlayerEvents implements Listener {
-    private MinecoinMain minecoinMain;
+    private MineCoinMain mineCoinMain;
 
-    public PlayerEvents(MinecoinMain pl) {
-        minecoinMain = pl;
+    public PlayerEvents(MineCoinMain pl) {
+        mineCoinMain = pl;
     }
 
     @EventHandler
     public void playerJoin(PlayerJoinEvent e) {
-        minecoinMain.getAPIManager().createAccount(e.getPlayer());
+        mineCoinMain.getAPIManager().createAccount(e.getPlayer());
     }
 }

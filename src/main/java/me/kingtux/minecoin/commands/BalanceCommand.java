@@ -1,6 +1,6 @@
 package me.kingtux.minecoin.commands;
 
-import me.kingtux.minecoin.MinecoinMain;
+import me.kingtux.minecoin.MineCoinMain;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -8,10 +8,10 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 public class BalanceCommand implements CommandExecutor {
-    private MinecoinMain minecoinMain;
+    private MineCoinMain mineCoinMain;
 
-    public BalanceCommand(MinecoinMain pl) {
-        minecoinMain = pl;
+    public BalanceCommand(MineCoinMain pl) {
+        mineCoinMain = pl;
     }
 
     @Override
@@ -20,8 +20,8 @@ public class BalanceCommand implements CommandExecutor {
             if (sender instanceof Player) {
                 //The basic command for /balance
                 Player p = (Player) sender;
-                String balanceMessage = minecoinMain.getConfigSettings().getConfigManager().getMainConfig().getString("Balance-Message");
-                balanceMessage = balanceMessage.replace("{balance}", String.valueOf(minecoinMain.getAPIManager().getBalance(p)));
+                String balanceMessage = mineCoinMain.getConfigSettings().getConfigManager().getMainConfig().getString("Balance-Message");
+                balanceMessage = balanceMessage.replace("{balance}", String.valueOf(mineCoinMain.getAPIManager().getBalance(p)));
                 p.sendMessage(ChatColor.translateAlternateColorCodes('&', balanceMessage));
             }
         }

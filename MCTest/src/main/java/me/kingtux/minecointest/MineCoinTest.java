@@ -7,7 +7,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
-public class MinecoinTest extends JavaPlugin implements Listener {
+public final class MineCoinTest extends JavaPlugin implements Listener {
     public void onEnable() {
         getServer().getPluginManager().registerEvents(this, this);
     }
@@ -21,7 +21,7 @@ public class MinecoinTest extends JavaPlugin implements Listener {
         MineCoinAPI mineCoinAPI = MineCoinAPI.getInstance();
         mineCoinAPI.addBalance(e.getPlayer(), 2);
         mineCoinAPI.subtractBalance(e.getPlayer(), 1);
-        e.getPlayer().sendMessage(PlaceholderAPI.setPlaceholders(e.getPlayer(), "%minecoin_balance% Welcome"));
-        e.getPlayer().sendMessage(be.maximvdw.placeholderapi.PlaceholderAPI.replacePlaceholders(e.getPlayer(), "%minecoin_balance% Welcome"));
+        e.getPlayer().sendMessage(PlaceholderAPI.setPlaceholders(e.getPlayer(), "Your Balance is %minecoin_balance% - PlaceHolderAPI"));
+        e.getPlayer().sendMessage(be.maximvdw.placeholderapi.PlaceholderAPI.replacePlaceholders(e.getPlayer(), "Your Balance is {balance} - MVdWPlaceholderAPI"));
     }
 }

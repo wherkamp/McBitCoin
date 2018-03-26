@@ -1,6 +1,6 @@
 package me.kingtux.minecoin.commands;
 
-import me.kingtux.minecoin.MinecoinMain;
+import me.kingtux.minecoin.MineCoinMain;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -9,10 +9,10 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 public class PayCommand implements CommandExecutor {
-    private MinecoinMain minecoinMain;
+    private MineCoinMain mineCoinMain;
 
-    public PayCommand(MinecoinMain pl) {
-        minecoinMain = pl;
+    public PayCommand(MineCoinMain pl) {
+        mineCoinMain = pl;
     }
 
     @Override
@@ -34,18 +34,18 @@ public class PayCommand implements CommandExecutor {
                     } catch (Exception e) {
                         p.sendMessage(ChatColor.DARK_RED + "Second Arg must be a integer.");
                     }
-                    if (minecoinMain.getAPIManager().getBalance(p) < payment) {
+                    if (mineCoinMain.getAPIManager().getBalance(p) < payment) {
                         p.sendMessage(ChatColor.DARK_RED + "You lack the money to give");
                         return false;
                     }
 
-                    boolean b = minecoinMain.getAPIManager().subtractBalance(p, payment);
+                    boolean b = mineCoinMain.getAPIManager().subtractBalance(p, payment);
                     if (b == true) {
-                        minecoinMain.getAPIManager().addBalance(recieveingPlayer, payment);
+                        mineCoinMain.getAPIManager().addBalance(recieveingPlayer, payment);
 
 
-                        String receiverMessage = minecoinMain.getConfigSettings().getConfigManager().getMainConfig().getString("Pay-Message.Receive");
-                        String payMessage = minecoinMain.getConfigSettings().getConfigManager().getMainConfig().getString("Pay-Message.Pay");
+                        String receiverMessage = mineCoinMain.getConfigSettings().getConfigManager().getMainConfig().getString("Pay-Message.Receive");
+                        String payMessage = mineCoinMain.getConfigSettings().getConfigManager().getMainConfig().getString("Pay-Message.Pay");
                         p.sendMessage(translateMessage(payMessage, p.getDisplayName(), recieveingPlayer.getDisplayName(), payment));
                         recieveingPlayer.sendMessage(translateMessage(
                                 receiverMessage, p.getDisplayName(), recieveingPlayer.getDisplayName(), payment));

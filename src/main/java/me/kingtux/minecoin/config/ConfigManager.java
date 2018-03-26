@@ -1,6 +1,6 @@
 package me.kingtux.minecoin.config;
 
-import me.kingtux.minecoin.MinecoinMain;
+import me.kingtux.minecoin.MineCoinMain;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.util.logging.Level;
 
 public class ConfigManager {
-    private MinecoinMain mainclass;
+    private MineCoinMain mainclass;
     private File mainConfig;
 
     private File playerFile;
@@ -22,7 +22,7 @@ public class ConfigManager {
     private FileConfiguration playerConfig;
 
 
-    public ConfigManager(MinecoinMain mainclass) {
+    public ConfigManager(MineCoinMain mainclass) {
         this.mainclass = mainclass;
     }
 

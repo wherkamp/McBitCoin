@@ -1,6 +1,6 @@
 name: MineCoin
 version: 1.2
-main: me.kingtux.minecoin.MinecoinMain
+main: me.kingtux.minecoin.MineCoinMain
 prefix: MineCoin
 softdepend: [PlaceholderAPI, MVdWPlaceholderAPI]
 loadbefore: [PlaceholderAPI, MVdWPlaceholderAPI]
