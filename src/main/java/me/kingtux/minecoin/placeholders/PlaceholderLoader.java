@@ -9,10 +9,6 @@ public class PlaceholderLoader {
         this.plugin = plugin;
     }
 
-    public void loadMVdwPlaceHolders() {
-        be.maximvdw.placeholderapi.PlaceholderAPI.registerPlaceholder(plugin, "balance", new MVdWPlaceholder(plugin));
-    }
-
     public void loadPlaceHolderAPI() {
         new PlaceHolderAPIPlaceHolder(plugin).register();
     }
