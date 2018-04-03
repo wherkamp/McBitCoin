@@ -12,6 +12,7 @@ import me.kingtux.minecoin.MineCoinMain;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
+@Deprecated
 public class OldMysqlStorage {
 
   private MineCoinMain mineCoinMain;
