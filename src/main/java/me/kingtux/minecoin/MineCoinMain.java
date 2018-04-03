@@ -88,12 +88,17 @@ public final class MineCoinMain extends JavaPlugin {
 
   @Override
   public void onDisable() {
-
+    storage.saveAndClose();
   }
 
   private Storage loadStorage() {
-
-    return new YamlStorage(this);
+    if (configSettings.getConfigType().equalsIgnoreCase("mysql")) {
+      return new MysqlStorage(this);
+    } else if (configSettings.getConfigType().equalsIgnoreCase("yaml")) {
+      return new YamlStorage(this);
+    } else {
+      return new YamlStorage(this);
+    }
   }
 
   private boolean isUpTodate() throws IOException {

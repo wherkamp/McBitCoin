@@ -5,7 +5,10 @@ import org.bukkit.OfflinePlayer;
 
 public class YamlStorage implements Storage {
 
+  private MineCoinMain mineCoinMain;
+
   public YamlStorage(MineCoinMain mineCoinMain) {
+    this.mineCoinMain = mineCoinMain;
   }
 
   @Override
@@ -36,5 +39,15 @@ public class YamlStorage implements Storage {
   @Override
   public boolean createAccount(OfflinePlayer player) {
     return false;
+  }
+
+  @Override
+  public String getName() {
+    return null;
+  }
+
+  @Override
+  public void saveAndClose() {
+
   }
 }

@@ -20,4 +20,6 @@ public interface Storage {
   public boolean createAccount(OfflinePlayer player);
 
   public String getName();
+
+  public void saveAndClose();
 }

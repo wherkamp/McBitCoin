@@ -7,7 +7,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.UUID;
 import me.kingtux.minecoin.MineCoinMain;
-import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 
 /**
@@ -20,34 +19,32 @@ public class MysqlStorage implements Storage {
   private Statement statement;
   private MineCoinMain mineCoinMain;
 
-  public MysqlStorage() {
-    mineCoinMain = (MineCoinMain) Bukkit.getServer().getPluginManager().getPlugin("MineCoin");
+  public MysqlStorage(MineCoinMain mineCoinMain) {
+    this.mineCoinMain = mineCoinMain;
 
-    if (mineCoinMain.getStorageType() != null && mineCoinMain.getStorageType().name()
-        .equalsIgnoreCase("mysql")) {
-      try {
-        connection = createConnection(mineCoinMain.getConfigSettings().getHost(),
-            mineCoinMain.getConfigSettings().getPort()
-            , mineCoinMain.getConfigSettings().getDatabase(),
-            mineCoinMain.getConfigSettings().getUsername(),
-            mineCoinMain.getConfigSettings().getPassword());
-      } catch (ClassNotFoundException e) {
-        e.printStackTrace();
-      } catch (SQLException e) {
-        e.printStackTrace();
-      }
-      try {
-        statement = connection.createStatement();
-      } catch (SQLException e) {
-        e.printStackTrace();
-      }
-      try {
-        statement.execute(
-            "CREATE TABLE IF NOT EXISTS `Player_Balances` ( `PlayerID` INT NOT NULL AUTO_INCREMENT,`PlayerUUID` VARCHAR(255) NOT NULL, `PlayerBalance` INT NOT NULL, PRIMARY KEY (`PlayerID`) );");
-      } catch (SQLException e) {
-        e.printStackTrace();
-      }
+    try {
+      connection = createConnection(mineCoinMain.getConfigSettings().getHost(),
+          mineCoinMain.getConfigSettings().getPort()
+          , mineCoinMain.getConfigSettings().getDatabase(),
+          mineCoinMain.getConfigSettings().getUsername(),
+          mineCoinMain.getConfigSettings().getPassword());
+    } catch (ClassNotFoundException e) {
+      e.printStackTrace();
+    } catch (SQLException e) {
+      e.printStackTrace();
     }
+    try {
+      statement = connection.createStatement();
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+    try {
+      statement.execute(
+          "CREATE TABLE IF NOT EXISTS `Player_Balances` ( `PlayerID` INT NOT NULL AUTO_INCREMENT,`PlayerUUID` VARCHAR(255) NOT NULL, `PlayerBalance` INT NOT NULL, PRIMARY KEY (`PlayerID`) );");
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+
   }
 
   private Connection createConnection(String host, String port, String database, String username,
@@ -133,5 +130,15 @@ public class MysqlStorage implements Storage {
       e.printStackTrace();
     }
     return false;
+  }
+
+  @Override
+  public String getName() {
+    return "mysql";
+  }
+
+  @Override
+  public void saveAndClose() {
+
   }
 }

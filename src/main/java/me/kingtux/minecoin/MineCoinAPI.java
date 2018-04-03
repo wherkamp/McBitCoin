@@ -109,6 +109,11 @@ public class MineCoinAPI {
     if (player == null) {
       return false;
     }
-    return mineCoinMain.getStorage().createAccount(player);
+    boolean[] ret = new boolean[1];
+    Runnable runnable = () -> {
+      ret[0] = mineCoinMain.getStorage().createAccount(player);
+    };
+
+    return ret[0];
   }
 }
