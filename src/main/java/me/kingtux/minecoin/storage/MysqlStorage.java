@@ -22,16 +22,31 @@ public class MysqlStorage implements Storage {
 
   public MysqlStorage() {
     mineCoinMain = (MineCoinMain) Bukkit.getServer().getPluginManager().getPlugin("MineCoin");
-    try {
-      connection = createConnection(mineCoinMain.getConfigSettings().getHost(),
-          mineCoinMain.getConfigSettings().getPort()
-          , mineCoinMain.getConfigSettings().getDatabase(),
-          mineCoinMain.getConfigSettings().getUsername(),
-          mineCoinMain.getConfigSettings().getPassword());
-    } catch (ClassNotFoundException e) {
-      e.printStackTrace();
-    } catch (SQLException e) {
-      e.printStackTrace();
+
+    if (mineCoinMain.getStorageType() != null && mineCoinMain.getStorageType().name()
+        .equalsIgnoreCase("mysql")) {
+      try {
+        connection = createConnection(mineCoinMain.getConfigSettings().getHost(),
+            mineCoinMain.getConfigSettings().getPort()
+            , mineCoinMain.getConfigSettings().getDatabase(),
+            mineCoinMain.getConfigSettings().getUsername(),
+            mineCoinMain.getConfigSettings().getPassword());
+      } catch (ClassNotFoundException e) {
+        e.printStackTrace();
+      } catch (SQLException e) {
+        e.printStackTrace();
+      }
+      try {
+        statement = connection.createStatement();
+      } catch (SQLException e) {
+        e.printStackTrace();
+      }
+      try {
+        statement.execute(
+            "CREATE TABLE IF NOT EXISTS `Player_Balances` ( `PlayerID` INT NOT NULL AUTO_INCREMENT,`PlayerUUID` VARCHAR(255) NOT NULL, `PlayerBalance` INT NOT NULL, PRIMARY KEY (`PlayerID`) );");
+      } catch (SQLException e) {
+        e.printStackTrace();
+      }
     }
   }
 

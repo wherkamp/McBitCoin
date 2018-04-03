@@ -16,7 +16,8 @@ import me.kingtux.minecoin.listeners.PlayerEvents;
 import me.kingtux.minecoin.metrics.Metrics;
 import me.kingtux.minecoin.placeholders.PlaceholderLoader;
 import me.kingtux.minecoin.storage.MysqlStorage;
-import me.kingtux.minecoin.storage.StorageTypes;
+import me.kingtux.minecoin.storage.Storage;
+import me.kingtux.minecoin.storage.YamlStorage;
 import org.bukkit.plugin.java.JavaPlugin;
 
 
@@ -26,7 +27,8 @@ public final class MineCoinMain extends JavaPlugin {
   private MysqlStorage connectionManager;
   private ConfigManager configManager;
   private MineCoinAPI MinecoinAPI;
-  private StorageTypes storageType;
+  //private StorageTypes storageType;
+  private Storage storage;
 
   public MysqlStorage getConnectionManager() {
     return connectionManager;
@@ -45,7 +47,10 @@ public final class MineCoinMain extends JavaPlugin {
     }
     configManager = new ConfigManager(this);
     configManager.setupConfig();
-    storageType = StorageTypes.getStorageType(configSettings.getConfigType());
+
+    //storageType = StorageTypes.getStorageType(configSettings.getConfigType());
+
+    storage = loadStorage();
 
     registerCommands();
     registerEvents();
@@ -54,7 +59,7 @@ public final class MineCoinMain extends JavaPlugin {
     metrics.addCustomChart(new Metrics.SimplePie("used_storage_type", new Callable<String>() {
       @Override
       public String call() {
-        return MineCoinMain.this.storageType.name();
+        return MineCoinMain.this.getStorage().getName();
       }
     }));
     getServer().getScheduler().runTaskLater(this, new Runnable() {
@@ -84,6 +89,11 @@ public final class MineCoinMain extends JavaPlugin {
   @Override
   public void onDisable() {
 
+  }
+
+  private Storage loadStorage() {
+
+    return new YamlStorage(this);
   }
 
   private boolean isUpTodate() throws IOException {
@@ -129,8 +139,9 @@ public final class MineCoinMain extends JavaPlugin {
     return MinecoinAPI;
   }
 
-  public StorageTypes getStorageType() {
-    return storageType;
+
+  public Storage getStorage() {
+    return storage;
   }
 }
 

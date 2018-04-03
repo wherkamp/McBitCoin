@@ -1,8 +1,12 @@
 package me.kingtux.minecoin.storage;
 
+import me.kingtux.minecoin.MineCoinMain;
 import org.bukkit.OfflinePlayer;
 
 public class YamlStorage implements Storage {
+
+  public YamlStorage(MineCoinMain mineCoinMain) {
+  }
 
   @Override
   public int getBalance(OfflinePlayer player) {
@@ -10,12 +14,12 @@ public class YamlStorage implements Storage {
   }
 
   @Override
-  public boolean setBalance(OfflinePlayer player) {
+  public boolean setBalance(OfflinePlayer player, int balance) {
     return false;
   }
 
   @Override
-  public boolean addBalance(OfflinePlayer player) {
+  public boolean addBalance(OfflinePlayer player, int amount) {
     return false;
   }
 
@@ -25,7 +29,7 @@ public class YamlStorage implements Storage {
   }
 
   @Override
-  public boolean subtractBalance(OfflinePlayer player) {
+  public boolean subtractBalance(OfflinePlayer player, int amount) {
     return false;
   }
 

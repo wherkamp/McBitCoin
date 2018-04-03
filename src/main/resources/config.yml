@@ -1,12 +1,11 @@
 #The Mysql only stores the wonderful player Data
-Use-Mysql: false
+Default-Balance: yaml
 #Only edit this area if Use-Mysql = true
 Host: 127.0.0.1
 Port: 3306
 User: 'root'
 Password: 'Your_Password_Goes_Here_1234'
-Database: 'Minecoin'
-Balance-Message: '&1[MineCoin] Your Balance is: {balance}'
+Database: 'Minecoin'Balance-Message: '&1[MineCoin] Your Balance is: {balance}'
 Pay-Message:
    Receive: 'You Just Recieved {amount} from {payer}'
    Pay: 'You Just payed {amount} to {receiver}'

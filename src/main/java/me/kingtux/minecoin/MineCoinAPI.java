@@ -44,7 +44,7 @@ public class MineCoinAPI {
     if (p == null) {
       return 0;
     }
-    return mineCoinMain.getStorageType().getStorage().getBalance(p);
+    return mineCoinMain.getStorage().getBalance(p);
   }
 
   /**
@@ -56,7 +56,7 @@ public class MineCoinAPI {
     if (p == null) {
       return false;
     }
-    return mineCoinMain.getStorageType().getStorage().setBalance(p, amount);
+    return mineCoinMain.getStorage().setBalance(p, amount);
   }
 
   /**
@@ -68,7 +68,7 @@ public class MineCoinAPI {
     if (p == null) {
       return false;
     }
-    return mineCoinMain.getStorageType().getStorage().addBalance(p, amount);
+    return mineCoinMain.getStorage().addBalance(p, amount);
 
   }
 
@@ -80,7 +80,7 @@ public class MineCoinAPI {
     if (player == null) {
       return false;
     }
-    return mineCoinMain.getStorageType().getStorage().hasAccount(player);
+    return mineCoinMain.getStorage().hasAccount(player);
   }
 
   /**
@@ -93,7 +93,7 @@ public class MineCoinAPI {
       return false;
     }
     if (amount > getBalance(p)) {
-      return mineCoinMain.getStorageType().getStorage().subtractBalance(p, amount);
+      return mineCoinMain.getStorage().subtractBalance(p, amount);
     } else {
       return false;
     }
@@ -109,6 +109,6 @@ public class MineCoinAPI {
     if (player == null) {
       return false;
     }
-    return mineCoinMain.getStorageType().getStorage().createAccount(player);
+    return mineCoinMain.getStorage().createAccount(player);
   }
 }

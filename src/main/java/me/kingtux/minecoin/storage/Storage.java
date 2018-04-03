@@ -18,4 +18,6 @@ public interface Storage {
   public boolean subtractBalance(OfflinePlayer player, int amount);
 
   public boolean createAccount(OfflinePlayer player);
+
+  public String getName();
 }
