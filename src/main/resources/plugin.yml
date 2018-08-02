@@ -2,16 +2,17 @@ name: MineCoin
 version: 1.2
 main: me.kingtux.minecoin.MineCoinMain
 prefix: MineCoin
-softdepend: [PlaceholderAPI, MVdWPlaceholderAPI]
-loadbefore: [PlaceholderAPI, MVdWPlaceholderAPI]
+softdepend: [PlaceholderAPI]
+loadbefore: [PlaceholderAPI]
 authors: [KingTux]
 description: A Secondary Currency for your Server
 website: https://kingtux.me
 commands:
-   balance:
-      description: Get the balance of you!
-      aliases: [bal, coins, coinbal, coinbalance]
-   coineco:
-      description: Give, Take, get money of people!
-   pay:
-      description: Give someone some money!
+  balance:
+    description: Get the balance of you or your friend
+    aliases: [bal, coins, coinbal, coinbalance]
+  coineco:
+    description: Admin Command for setting, giving, and taking away money
+    usage: '/coineco <add,set,subtract> {who} {amount}'
+  pay:
+    description: Give money to a friend or enemy

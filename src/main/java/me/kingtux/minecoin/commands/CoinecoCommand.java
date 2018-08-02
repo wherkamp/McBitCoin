@@ -1,6 +1,7 @@
 package me.kingtux.minecoin.commands;
 
 import me.kingtux.minecoin.MineCoinMain;
+import me.kingtux.minecoin.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -9,91 +10,62 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 public class CoinecoCommand implements CommandExecutor {
-    private MineCoinMain mineCoinMain;
 
-    public CoinecoCommand(MineCoinMain pl) {
-        mineCoinMain = pl;
+  private MineCoinMain mineCoinMain;
+
+  public CoinecoCommand(MineCoinMain pl) {
+    mineCoinMain = pl;
+  }
+
+  @Override
+  public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+    if (args.length < 3) {
+      sender.sendMessage(
+          getString("messages.not-enough-args").replace("{format}", command.getUsage()));
+      return true;
     }
-
-    @Override
-    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (command.getName().equalsIgnoreCase("coineco")) {
-            if (sender instanceof Player) {
-                Player player = (Player) sender;
-                if (args.length == 1) {
-                    if (args[0].equalsIgnoreCase("help")) {
-                        player.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                                "/coineco give {player} {how_much} Adds to the Player's Balance\n" +
-                                        "/coineco set {player} {new_balance} Set the Player's Balance\n" +
-                                        "/coineco remove {player} {how_much} Removes x amount of money\n" +
-                                        "/coineco balance {player}  Returns the Player Balance"));
-                        return true;
-                    }
-                }
-                if (args.length == 3) {
-                    if (args[0].equalsIgnoreCase("give")) {
-                        Player p = Bukkit.getPlayer(args[1]);
-                        if (p != null) {
-                            boolean worked = mineCoinMain.getAPIManager().addBalance(p, Integer.valueOf(args[2]));
-                            if (worked) {
-                                player.sendMessage(ChatColor.DARK_GREEN + "Transaction was a success!");
-                            } else {
-                                player.sendMessage(ChatColor.DARK_RED + "Transaction FAILED!");
-                            }
-                        } else {
-                            player.sendMessage(ChatColor.DARK_RED + "Player not found!");
-                        }
-                        return true;
-                    } else if (args[0].equalsIgnoreCase("set")) {
-                        Player p = Bukkit.getPlayer(args[1]);
-                        if (p != null) {
-                            boolean worked = mineCoinMain.getAPIManager().setBalance(p, Integer.valueOf(args[2]));
-                            if (worked) {
-                                player.sendMessage(ChatColor.DARK_GREEN + "Transaction was a success!");
-                            } else {
-                                player.sendMessage(ChatColor.DARK_RED + "Transaction FAILED!");
-                            }
-                        } else {
-                            player.sendMessage(ChatColor.DARK_RED + "Player not found!");
-
-
-                        }
-                        return true;
-
-                    } else if (args[0].equalsIgnoreCase("remove")) {
-                        Player p = Bukkit.getPlayer(args[1]);
-                        if (p != null) {
-                            boolean worked = mineCoinMain.getAPIManager().subtractBalance(p, Integer.valueOf(args[2]));
-                            if (worked) {
-                                player.sendMessage(ChatColor.DARK_GREEN + "Transaction was a success!");
-                            } else {
-                                player.sendMessage(ChatColor.DARK_RED + "Transaction FAILED!");
-                            }
-                        } else {
-                            player.sendMessage(ChatColor.DARK_RED + "Player not found!");
-                        }
-                        return true;
-
-                    }
-                } else if (args.length == 2) {
-                    if (args[0].equalsIgnoreCase("balance")) {
-                        Player p = Bukkit.getPlayer(args[1]);
-                        if (p != null) {
-                            String money = String.valueOf(mineCoinMain.getAPIManager().getBalance(p));
-                            player.sendMessage(ChatColor.DARK_GREEN + "The balance of your partner is: " + money);
-                        }
-                    } else {
-                        player.sendMessage(ChatColor.DARK_RED + "Player not found!");
-                    }
-                    return true;
-                } else {
-                    player.sendMessage(ChatColor.RED + "Invalid command! Use /coineco help for help!");
-                }
-            } else {
-                sender.sendMessage("You must a player to run this command!");
-            }
-            return true;
-        }
-        return false;
+    if (!sender.hasPermission("minecoin.coineco.use")) {
+      sender.sendMessage(Utils.color(getString("messages.you-lack-permissions")));
+      return true;
     }
+    Player reciever = Bukkit.getPlayer(args[1]);
+
+    if (args[0].equalsIgnoreCase("set")) {
+      mineCoinMain.getAPIManager().setBalance(reciever, Integer.parseInt(args[2]));
+      sendMessage(sender, reciever, Integer.parseInt(args[2]), "set");
+
+    } else if (args[0].equalsIgnoreCase("add")) {
+      mineCoinMain.getAPIManager().addBalance(reciever, Integer.parseInt(args[2]));
+      sendMessage(sender, reciever, Integer.parseInt(args[2]), "add");
+    } else if (args[0].equalsIgnoreCase("subtract")) {
+      boolean result = mineCoinMain.getAPIManager()
+          .subtractBalance(reciever, Integer.parseInt(args[2]));
+      if (result) {
+        sendMessage(sender, reciever, Integer.parseInt(args[2]), "subtract");
+      } else {
+//low-on-funds
+        sender.sendMessage(
+            getString("messages.low-on-funds.other")
+                .replace("{player}", reciever.getDisplayName()));
+      }
+    } else {
+      //invalid-format
+      sender.sendMessage(
+          getString("messages.invalid-format").replace("{format}", command.getUsage()));
+    }
+    return true;
+  }
+
+  private void sendMessage(CommandSender sender, Player reciever, int amount, String job) {
+    sender.sendMessage(Utils
+        .color(Utils
+            .format(sender, reciever, amount, getString("messages.coineco." + job + ".sender"))));
+    reciever.sendMessage(Utils
+        .color(Utils
+            .format(sender, reciever, amount, getString("messages.coineco." + job + ".receiver"))));
+  }
+
+  private String getString(String key) {
+    return mineCoinMain.getConfig().getString(key);
+  }
 }
