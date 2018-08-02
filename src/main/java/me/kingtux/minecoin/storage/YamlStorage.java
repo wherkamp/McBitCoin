@@ -22,19 +22,10 @@ public class YamlStorage implements Storage {
   }
 
   @Override
-  public boolean addBalance(OfflinePlayer player, int amount) {
-    return false;
-  }
-
-  @Override
   public boolean hasAccount(OfflinePlayer player) {
     return false;
   }
 
-  @Override
-  public boolean subtractBalance(OfflinePlayer player, int amount) {
-    return false;
-  }
 
   @Override
   public boolean createAccount(OfflinePlayer player) {

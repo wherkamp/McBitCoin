@@ -2,6 +2,7 @@ package me.kingtux.minecoin.storage;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -10,8 +11,7 @@ import me.kingtux.minecoin.MineCoinMain;
 import org.bukkit.OfflinePlayer;
 
 /**
- * @author KingTux CREATE TABLE `Player_Balances` ( `PlayerID` INT NOT NULL AUTO_INCREMENT,
- * `PlayerUUID` VARCHAR(255) NOT NULL, `PlayerBalance` INT NOT NULL, PRIMARY KEY (`PlayerID`) );
+ * @author KingTux
  */
 public class MysqlStorage implements Storage {
 
@@ -39,8 +39,7 @@ public class MysqlStorage implements Storage {
       e.printStackTrace();
     }
     try {
-      statement.execute(
-          "CREATE TABLE IF NOT EXISTS `Player_Balances` ( `PlayerID` INT NOT NULL AUTO_INCREMENT,`PlayerUUID` VARCHAR(255) NOT NULL, `PlayerBalance` INT NOT NULL, PRIMARY KEY (`PlayerID`) );");
+      statement.execute(SqlQueries.CREATE_TABLE.getQuery());
     } catch (SQLException e) {
       e.printStackTrace();
     }
@@ -70,66 +69,67 @@ public class MysqlStorage implements Storage {
 
   @Override
   public int getBalance(OfflinePlayer player) {
-    int PlayerBalance = 0;
-    UUID pUUID = player.getUniqueId();
-    ResultSet result = null;
+    int balance = 0;
+    String query = SqlQueries.getUser.getQuery();
     try {
-      result = statement.executeQuery(
-          "SELECT * FROM `Player_Balances` WHERE PlayerUUID='" + pUUID.toString() + "';");
-      if (result != null) {
-        while (result.next()) {
-          UUID tempUUID = UUID.fromString(result.getString("PlayerUUID"));
-          if (pUUID.equals(tempUUID)) {
-            PlayerBalance = result.getInt("PlayerBalance");
-            break;
-          }
-        }
+      PreparedStatement preparedStatement = connection.prepareStatement(query);
+      preparedStatement.setString(1, player.getUniqueId().toString());
+      ResultSet resultSet = preparedStatement.executeQuery();
+      while (resultSet.next()) {
+        balance = resultSet.getInt("balance");
       }
     } catch (SQLException e) {
       e.printStackTrace();
     }
-    return PlayerBalance;
+    return balance;
   }
 
   @Override
   public boolean setBalance(OfflinePlayer player, int balance) {
-    return false;
-  }
-
-  @Override
-  public boolean addBalance(OfflinePlayer player, int amount) {
-    return false;
+    String query = SqlQueries.UPDATE_BALANCE.getQuery();
+    try {
+      PreparedStatement preparedStatement = connection.prepareStatement(query);
+      preparedStatement.setInt(1, balance);
+      preparedStatement.setString(2, player.getUniqueId().toString());
+      ResultSet resultSet = preparedStatement.executeQuery();
+    } catch (SQLException e) {
+      e.printStackTrace();
+      return false;
+    }
+    return true;
   }
 
   @Override
   public boolean hasAccount(OfflinePlayer player) {
-    return false;
-  }
-
-  @Override
-  public boolean subtractBalance(OfflinePlayer player, int amount) {
-    return false;
-  }
-
-  @Override
-  public boolean createAccount(OfflinePlayer player) {
-    UUID pUUID = player.getUniqueId();
+    String query = SqlQueries.getUser.getQuery();
     try {
-      ResultSet rs = statement
-          .executeQuery(
-              "SELECT PlayerUUID FROM Player_Balances WHERE PlayerUUID='" + pUUID.toString() + "'");
-      if (!rs.next()) {
-        statement.execute(
-            "INSERT INTO PlayerData (PlayerUUID, Player_Balances) VALUES ('" + pUUID.toString()
-                + "', " + mineCoinMain.getConfigSettings().getDefaultBalance() + ");");
+      PreparedStatement preparedStatement = connection.prepareStatement(query);
+      preparedStatement.setString(1, player.getUniqueId().toString());
+      ResultSet resultSet = preparedStatement.executeQuery();
+      while (resultSet.next()) {
         return true;
-      } else {
-        return false;
       }
     } catch (SQLException e) {
       e.printStackTrace();
     }
     return false;
+  }
+
+
+  @Override
+  public boolean createAccount(OfflinePlayer player) {
+    int defaultBalance = mineCoinMain.getConfigSettings().getDefaultBalance();
+    String query = SqlQueries.CREATE_TABLE.getQuery();
+    try {
+      PreparedStatement preparedStatement = connection.prepareStatement(query);
+      preparedStatement.setString(1, player.getUniqueId().toString());
+      preparedStatement.setInt(2, defaultBalance);
+      preparedStatement.execute();
+    } catch (SQLException e) {
+      e.printStackTrace();
+      return false;
+    }
+    return true;
   }
 
   @Override
@@ -139,6 +139,12 @@ public class MysqlStorage implements Storage {
 
   @Override
   public void saveAndClose() {
-
+    if (connection != null) {
+      try {
+        connection.close();
+      } catch (SQLException e) {
+        e.printStackTrace();
+      }
+    }
   }
 }

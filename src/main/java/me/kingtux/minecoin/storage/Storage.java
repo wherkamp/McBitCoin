@@ -11,11 +11,7 @@ public interface Storage {
 
   public boolean setBalance(OfflinePlayer player, int balance);
 
-  public boolean addBalance(OfflinePlayer player, int amount);
-
   public boolean hasAccount(OfflinePlayer player);
-
-  public boolean subtractBalance(OfflinePlayer player, int amount);
 
   public boolean createAccount(OfflinePlayer player);
 

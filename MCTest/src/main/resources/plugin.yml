@@ -1,6 +1,0 @@
-name: MineCoinTest
-version: ${project.version}
-main: me.kingtux.minecointest.MineCoinTest
-loadbefore: [MineCoin]
-depend: [MineCoin]
-description: The Test for MineCoin

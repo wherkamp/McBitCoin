@@ -68,8 +68,7 @@ public class MineCoinAPI {
     if (p == null) {
       return false;
     }
-    return mineCoinMain.getStorage().addBalance(p, amount);
-
+    return false;
   }
 
   /**
@@ -92,11 +91,7 @@ public class MineCoinAPI {
     if (p == null) {
       return false;
     }
-    if (amount > getBalance(p)) {
-      return mineCoinMain.getStorage().subtractBalance(p, amount);
-    } else {
-      return false;
-    }
+    return false;
   }
 
   /**

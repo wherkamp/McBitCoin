@@ -13,11 +13,11 @@ import me.kingtux.minecoin.commands.PayCommand;
 import me.kingtux.minecoin.config.ConfigManager;
 import me.kingtux.minecoin.config.ConfigSettings;
 import me.kingtux.minecoin.listeners.PlayerEvents;
-import me.kingtux.minecoin.metrics.Metrics;
 import me.kingtux.minecoin.placeholders.PlaceholderLoader;
 import me.kingtux.minecoin.storage.MysqlStorage;
 import me.kingtux.minecoin.storage.Storage;
 import me.kingtux.minecoin.storage.YamlStorage;
+import org.bstats.bukkit.Metrics;
 import org.bukkit.plugin.java.JavaPlugin;
 
 
@@ -27,12 +27,8 @@ public final class MineCoinMain extends JavaPlugin {
   private MysqlStorage connectionManager;
   private ConfigManager configManager;
   private MineCoinAPI MinecoinAPI;
-  //private StorageTypes storageType;
   private Storage storage;
 
-  public MysqlStorage getConnectionManager() {
-    return connectionManager;
-  }
 
   @Override
   public void onEnable() {
@@ -48,20 +44,20 @@ public final class MineCoinMain extends JavaPlugin {
     configManager = new ConfigManager(this);
     configManager.setupConfig();
 
-    //storageType = StorageTypes.getStorageType(configSettings.getConfigType());
-
     storage = loadStorage();
 
     registerCommands();
     registerEvents();
     MinecoinAPI = new MineCoinAPI(this);
-    Metrics metrics = new Metrics(this);
-    metrics.addCustomChart(new Metrics.SimplePie("used_storage_type", new Callable<String>() {
-      @Override
-      public String call() {
-        return MineCoinMain.this.getStorage().getName();
-      }
-    }));
+
+      Metrics metrics = new Metrics(this);
+      metrics.addCustomChart(new Metrics.SimplePie("used_storage_type", new Callable<String>() {
+        @Override
+        public String call() {
+          return MineCoinMain.this.getStorage().getName();
+        }
+      }));
+
     getServer().getScheduler().runTaskLater(this, new Runnable() {
       @Override
       public void run() {
