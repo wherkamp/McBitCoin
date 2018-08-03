@@ -8,6 +8,7 @@ import org.bukkit.OfflinePlayer;
 public class MineCoinAPI {
 
   private MineCoinMain mineCoinMain;
+  private static MineCoinAPI mineCoinAPI;
 
   public MineCoinAPI() {
     mineCoinMain = null;
@@ -23,13 +24,14 @@ public class MineCoinAPI {
    */
   protected MineCoinAPI(MineCoinMain plugin) {
     mineCoinMain = plugin;
+    mineCoinAPI = this;
   }
 
   /**
    * @return The instance of MineCoinAPI
    */
-  public MineCoinAPI getInstance() {
-    return mineCoinMain.getAPIManager();
+  public static MineCoinAPI getInstance() {
+    return mineCoinAPI;
   }
 
   /**
@@ -68,7 +70,7 @@ public class MineCoinAPI {
     if (p == null) {
       return false;
     }
-    return false;
+    return setBalance(p, getBalance(p) + amount);
   }
 
   /**
@@ -91,7 +93,10 @@ public class MineCoinAPI {
     if (p == null) {
       return false;
     }
-    return false;
+    if (getBalance(p) < amount) {
+      return false;
+    }
+    return setBalance(p, getBalance(p) - amount);
   }
 
   /**
@@ -104,11 +109,6 @@ public class MineCoinAPI {
     if (player == null) {
       return false;
     }
-    boolean[] ret = new boolean[1];
-    Runnable runnable = () -> {
-      ret[0] = mineCoinMain.getStorage().createAccount(player);
-    };
-
-    return ret[0];
+    return mineCoinMain.getStorage().createAccount(player);
   }
 }

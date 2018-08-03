@@ -29,7 +29,11 @@ public class CoinecoCommand implements CommandExecutor {
       return true;
     }
     Player reciever = Bukkit.getPlayer(args[1]);
-
+    if (reciever == null) {
+      sender.sendMessage(
+          Utils.color(getString("messages.player-not-online").replace("name", args[0])));
+      return true;
+    }
     if (args[0].equalsIgnoreCase("set")) {
       mineCoinMain.getAPIManager().setBalance(reciever, Integer.parseInt(args[2]));
       sendMessage(sender, reciever, Integer.parseInt(args[2]), "set");

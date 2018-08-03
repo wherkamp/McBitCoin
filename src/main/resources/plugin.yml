@@ -16,3 +16,4 @@ commands:
     usage: '/coineco <add,set,subtract> {who} {amount}'
   pay:
     description: Give money to a friend or enemy
+    usage: '/pay {who} {amount}'

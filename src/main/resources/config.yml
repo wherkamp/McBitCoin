@@ -38,3 +38,4 @@ messages:
   invalid-format: 'Invalid Format. Follow {format}'
   player-not-online: '{name} is not online or not a player'
   you-lack-permissions: 'You lack permissions'
+  argument-must-be-an-int: '{arg} must be an int'
