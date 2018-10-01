@@ -13,7 +13,7 @@ public class MineCoinAPI {
   public MineCoinAPI() {
     mineCoinMain = null;
     try {
-      throw new IllegalAccessException("You may not access this");
+      throw new IllegalAccessException("You may not access this please use MineCoinAPI#getInstane()");
     } catch (IllegalAccessException e) {
       e.printStackTrace();
     }
@@ -99,6 +99,16 @@ public class MineCoinAPI {
     return setBalance(p, getBalance(p) - amount);
   }
 
+  /**
+   * @param p The player
+   * @param amount amount to check
+   * @return true or false if player can afford it
+    */
+  
+  public boolean canAfford(OfflinePlayer p, int amount){
+    return (getBalance(p) >= amount);
+  }
+  
   /**
    * Run hasAccount first so you don't ruin data
    *
