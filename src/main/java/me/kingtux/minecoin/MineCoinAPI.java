@@ -31,6 +31,9 @@ public class MineCoinAPI {
    * @return The instance of MineCoinAPI
    */
   public static MineCoinAPI getInstance() {
+    if(mineCoinAPI == null){
+      throw new NullPointerException("MineCoinAPI has not been init yet.");
+    }
     return mineCoinAPI;
   }
 
