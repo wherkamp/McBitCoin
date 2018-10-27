@@ -9,6 +9,8 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.util.concurrent.ExecutionException;
+
 public class BalanceCommand implements CommandExecutor {
 
   private MineCoinMain mineCoinMain;
@@ -35,16 +37,28 @@ public class BalanceCommand implements CommandExecutor {
             Utils.color(getString("messages.player-not-online").replace("name", args[0])));
         return true;
       }
-      player.sendMessage(
-          formatBalanceMessage(who, mineCoinMain.getAPIManager().getBalance(who), "other"));
+      try {
+        player.sendMessage(
+            formatBalanceMessage(who, mineCoinMain.getAPIManager().getBalance(who).get(), "other"));
+      } catch (InterruptedException e) {
+        e.printStackTrace();
+      } catch (ExecutionException e) {
+        e.printStackTrace();
+      }
       return true;
     } else {
       if (!player.hasPermission("minecoin.balance.me")) {
         player.sendMessage(Utils.color(getString("messages.you-lack-permissions")));
         return true;
       }
-      player.sendMessage(
-          formatBalanceMessage(player, mineCoinMain.getAPIManager().getBalance(player), "you"));
+      try {
+        player.sendMessage(
+            formatBalanceMessage(player, mineCoinMain.getAPIManager().getBalance(player).get(), "you"));
+      } catch (InterruptedException e) {
+        e.printStackTrace();
+      } catch (ExecutionException e) {
+        e.printStackTrace();
+      }
       return true;
     }
   }

@@ -24,7 +24,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 public final class MineCoinMain extends JavaPlugin {
 
   private ConfigSettings configSettings;
-  private MysqlStorage connectionManager;
   private ConfigManager configManager;
   private MineCoinAPI MinecoinAPI;
   private Storage storage;
@@ -51,19 +50,9 @@ public final class MineCoinMain extends JavaPlugin {
     MinecoinAPI = new MineCoinAPI(this);
 
       Metrics metrics = new Metrics(this);
-      metrics.addCustomChart(new Metrics.SimplePie("used_storage_type", new Callable<String>() {
-        @Override
-        public String call() {
-          return MineCoinMain.this.getStorage().getName();
-        }
-      }));
+      metrics.addCustomChart(new Metrics.SimplePie("used_storage_type", () -> MineCoinMain.this.getStorage().getName()));
 
-    getServer().getScheduler().runTaskLater(this, new Runnable() {
-      @Override
-      public void run() {
-        loadPlaceHolders();
-      }
-    }, 1);
+    getServer().getScheduler().runTaskLater(this, () -> loadPlaceHolders(), 1);
 
   }
 

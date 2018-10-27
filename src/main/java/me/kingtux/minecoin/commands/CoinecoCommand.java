@@ -9,6 +9,8 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.util.concurrent.ExecutionException;
+
 public class CoinecoCommand implements CommandExecutor {
 
   private MineCoinMain mineCoinMain;
@@ -42,8 +44,13 @@ public class CoinecoCommand implements CommandExecutor {
       mineCoinMain.getAPIManager().addBalance(reciever, Integer.parseInt(args[2]));
       sendMessage(sender, reciever, Integer.parseInt(args[2]), "add");
     } else if (args[0].equalsIgnoreCase("subtract")) {
-      boolean result = mineCoinMain.getAPIManager()
-          .subtractBalance(reciever, Integer.parseInt(args[2]));
+      boolean result = false;
+      try {
+        result = mineCoinMain.getAPIManager()
+            .subtractBalance(reciever, Integer.parseInt(args[2])).get();
+      } catch (InterruptedException | ExecutionException e) {
+        e.printStackTrace();
+      }
       if (result) {
         sendMessage(sender, reciever, Integer.parseInt(args[2]), "subtract");
       } else {

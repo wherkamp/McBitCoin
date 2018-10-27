@@ -23,13 +23,13 @@ messages:
     - ''
     set:
       sender: 'You just set the balance of {reciever} to {balance}'
-      reciever: '{sender} just set your balance to {balance}'
+      receiver: '{sender} just set your balance to {balance}'
     subtract:
       sender: 'You just subtracted to {reciever} by {balance}'
-      reciever: '{sender} just removed {balance} from your balance'
+      receiver: '{sender} just removed {balance} from your balance'
     add:
       sender: 'You just added to {reciever} by {balance}'
-      reciever: '{sender} just added {balance} to your balance'
+      receiver: '{sender} just added {balance} to your balance'
   low-on-funds:
     other: '{player} is Low on Funds'
     you: 'You are low on funds'

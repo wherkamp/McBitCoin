@@ -5,6 +5,8 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 
+import java.util.concurrent.ExecutionException;
+
 public class PlayerEvents implements Listener {
 
   private MineCoinMain mineCoinMain;
@@ -15,8 +17,12 @@ public class PlayerEvents implements Listener {
 
   @EventHandler
   public void playerJoin(PlayerJoinEvent e) {
-    if (mineCoinMain.getAPIManager().hasAccount(e.getPlayer())) {
-      mineCoinMain.getAPIManager().createAccount(e.getPlayer());
+    try {
+      if (mineCoinMain.getAPIManager().hasAccount(e.getPlayer()).get()) {
+        mineCoinMain.getAPIManager().createAccount(e.getPlayer());
+      }
+    } catch (InterruptedException | ExecutionException e1) {
+      e1.printStackTrace();
     }
   }
 }
