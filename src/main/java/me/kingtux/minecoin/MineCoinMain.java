@@ -104,7 +104,6 @@ public final class MineCoinMain extends JavaPlugin {
 
     private void loadPlaceHolders() {
         //Run on first tick to make sure plugin is loaded
-
         if (getServer().getPluginManager().isPluginEnabled("PlaceholderAPI")) {
             getLogger().log(Level.INFO, "PlayerHolderAPI found");
             new PlaceholderLoader(this).loadPlaceHolderAPI();
@@ -112,8 +111,6 @@ public final class MineCoinMain extends JavaPlugin {
             getLogger().log(Level.INFO, "PlaceHolderAPI not found");
         }
         getLogger().log(Level.INFO, "Placeholders loaded");
-
-
     }
 
 

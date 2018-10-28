@@ -10,7 +10,7 @@ public class PlaceHolderAPIPlaceHolder extends PlaceholderExpansion {
 
     private MineCoinMain plugin;
 
-    public PlaceHolderAPIPlaceHolder(MineCoinMain pl) {
+    PlaceHolderAPIPlaceHolder(MineCoinMain pl) {
         plugin = pl;
     }
 
