@@ -7,35 +7,3 @@ Port: 3306
 User: 'root'
 Password: 'Your_Password_Goes_Here_1234'
 Database: 'Minecoin'
-Balance-Message: '&1[MineCoin] Your Balance is: {balance}'
-Pay-Message:
-  Receive: 'You Just Recieved {amount} from {sender}'
-  Pay: 'You Just payed {amount} to {receiver}'
-messages:
-  balance:
-    other: 'The balance of {player} is {balance}'
-    you: 'Your Balance is: {balance}'
-  pay:
-    receive: 'You just recieved {amount} from {sender}'
-    pay: 'You just payed {amount} to {receiver}'
-  coineco:
-    help:
-    - ''
-    set:
-      sender: 'You just set the balance of {reciever} to {balance}'
-      receiver: '{sender} just set your balance to {balance}'
-    subtract:
-      sender: 'You just subtracted to {reciever} by {balance}'
-      receiver: '{sender} just removed {balance} from your balance'
-    add:
-      sender: 'You just added to {reciever} by {balance}'
-      receiver: '{sender} just added {balance} to your balance'
-  low-on-funds:
-    other: '{player} is Low on Funds'
-    you: 'You are low on funds'
-  not-a-player: 'you are not a player you rebel scum'
-  not-enough-args: 'Invalid Format. Follow {format}'
-  invalid-format: 'Invalid Format. Follow {format}'
-  player-not-online: '{name} is not online or not a player'
-  you-lack-permissions: 'You lack permissions'
-  argument-must-be-an-int: '{arg} must be an int'
