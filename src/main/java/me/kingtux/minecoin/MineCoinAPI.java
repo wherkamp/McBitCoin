@@ -15,8 +15,6 @@ public class MineCoinAPI {
 
     private MineCoinMain mineCoinMain;
     private static MineCoinAPI mineCoinAPI;
-    private ExecutorService executor
-            = Executors.newSingleThreadExecutor();
 
     public MineCoinAPI() {
         mineCoinMain = null;
@@ -43,9 +41,6 @@ public class MineCoinAPI {
         return mineCoinAPI;
     }
 
-    private Future<Void> itIsNull() {
-        return executor.submit(() -> null);
-    }
     /**
      * @return The MineCoinMain instance
      */
@@ -55,9 +50,6 @@ public class MineCoinAPI {
      * @return The balance of the player
      */
     public Future<Integer> getBalance(OfflinePlayer p) {
-        if (p == null) {
-            return executor.submit(() -> 0);
-        }
         return storage().getBalance(p);
 
     }
@@ -68,9 +60,6 @@ public class MineCoinAPI {
      * @return If it was a success
      */
     public Future<Void> setBalance(OfflinePlayer p, int amount) {
-        if (p == null) {
-            return itIsNull();
-        }
         return storage().setBalance(p, amount);
     }
 
@@ -80,9 +69,6 @@ public class MineCoinAPI {
      * @return True or false if was success
      */
     public Future<Void> addBalance(OfflinePlayer p, int amount) {
-        if (p == null) {
-            return itIsNull();
-        }
         return storage().addBalance(p, amount);
 
     }
@@ -96,9 +82,6 @@ public class MineCoinAPI {
      * @return True of false if they have a account
      */
     public Future<Boolean> hasAccount(OfflinePlayer player) {
-        if (player == null) {
-            return executor.submit(() -> false);
-        }
         return storage().hasAccount(player);
     }
 
@@ -108,9 +91,6 @@ public class MineCoinAPI {
      * @return true or false if transaction was a success
      */
     public Future<Boolean> subtractBalance(OfflinePlayer p, int amount) {
-        if (p == null) {
-            return executor.submit(() -> false);
-        }
         return storage().subtractBalance(p, amount);
     }
 
@@ -130,9 +110,6 @@ public class MineCoinAPI {
      * @param player The player to create an account for
      */
     public Future<Void> createAccount(OfflinePlayer player) {
-        if (player == null) {
-            return itIsNull();
-        }
         return storage().createAccount(player);
     }
 }
