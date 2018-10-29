@@ -88,7 +88,7 @@ public final class MineCoinMain extends JavaPlugin {
             field.setAccessible(true);
             ConfigEntry configEntry = field.getAnnotationsByType(ConfigEntry.class)[0];
             if (!(fileConfiguration.contains(configEntry.path())) || fileConfiguration.get(configEntry.path()) == null) {
-                fileConfiguration.set(configEntry.path(), "'" + editibleThing.get(LangFile.valueOf(field.getName())) + "'");
+                fileConfiguration.set(configEntry.path(), editibleThing.get(LangFile.valueOf(field.getName())));
             }
         }
         fileConfiguration.save(langFile);

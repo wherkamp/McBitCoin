@@ -13,11 +13,12 @@ public class Utils {
         return ChatColor.translateAlternateColorCodes('&', s);
     }
 
-    public static String format(CommandSender sender, Player reciever, int balance,
+    public static String format(CommandSender sender, Player reciever, int balance, int amount,
                                 final String message) {
         String newMessage = message.replace("{balance}", String.valueOf(balance));
-        newMessage = message.replace("{sender}", sender.getName());
-        newMessage = message.replace("{receiver}", reciever.getDisplayName());
+        newMessage = newMessage.replace("{sender}", sender.getName());
+        newMessage = newMessage.replace("{receiver}", reciever.getDisplayName());
+        newMessage = newMessage.replace("{amount}", String.valueOf(amount));
         return newMessage;
     }
 

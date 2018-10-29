@@ -27,37 +27,37 @@ public class BalanceCommand implements CommandExecutor {
             return true;
         }
         Player player = (Player) sender;
-        if (args.length >= 1) {
-            if (!player.hasPermission("minecoin.balance.other")) {
-                player.sendMessage(LangFile.LACK_PERMS.getFormattedValue(player));
-                return true;
+        Runnable runnable = () -> {
+            if (args.length >= 1) {
+                if (!player.hasPermission("minecoin.balance.other")) {
+                    player.sendMessage(LangFile.LACK_PERMS.getFormattedValue(player));
+                }
+                Player who = Bukkit.getPlayer(args[0]);
+                if (who == null) {
+                    player.sendMessage(
+                            LangFile.BALANCE_MESSAGE_OTHER.getColorValue().replace("{name}", args[0]));
+                }
+                try {
+                    player.sendMessage(
+                            formatBalanceMessage(who, mineCoinMain.getAPIManager().getBalance(who).get(), "other"));
+                } catch (InterruptedException | ExecutionException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                if (!player.hasPermission("minecoin.balance.me")) {
+                    player.sendMessage(LangFile.LACK_PERMS.getFormattedValue(player));
+                }
+                try {
+                    player.sendMessage(
+                            formatBalanceMessage(player, mineCoinMain.getAPIManager().getBalance(player).get(), "you"));
+                } catch (InterruptedException | ExecutionException e) {
+                    e.printStackTrace();
+                }
             }
-            Player who = Bukkit.getPlayer(args[0]);
-            if (who == null) {
-                player.sendMessage(
-                        LangFile.BALANCE_MESSAGE_OTHER.getColorValue().replace("{name}", args[0]));
-                return true;
-            }
-            try {
-                player.sendMessage(
-                        formatBalanceMessage(who, mineCoinMain.getAPIManager().getBalance(who).get(), "other"));
-            } catch (InterruptedException | ExecutionException e) {
-                e.printStackTrace();
-            }
-            return true;
-        } else {
-            if (!player.hasPermission("minecoin.balance.me")) {
-                player.sendMessage(LangFile.LACK_PERMS.getFormattedValue(player));
-                return true;
-            }
-            try {
-                player.sendMessage(
-                        formatBalanceMessage(player, mineCoinMain.getAPIManager().getBalance(player).get(), "you"));
-            } catch (InterruptedException | ExecutionException e) {
-                e.printStackTrace();
-            }
-            return true;
-        }
+        };
+
+        Bukkit.getScheduler().runTask(mineCoinMain, runnable);
+        return true;
     }
 
     private String formatBalanceMessage(Player player, int balance, String who) {

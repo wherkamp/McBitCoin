@@ -10,6 +10,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.concurrent.ExecutionException;
 
@@ -37,43 +38,62 @@ public class CoinecoCommand implements CommandExecutor {
                     Utils.color(LangFile.MISSING_PLAYER.getColorValue().replace("name", args[0])));
             return true;
         }
-        if (args[0].equalsIgnoreCase("set")) {
-            mineCoinMain.getAPIManager().setBalance(reciever, Integer.parseInt(args[2]));
-            sendMessage(sender, reciever, Integer.parseInt(args[2]), "set");
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                if (args[0].equalsIgnoreCase("set")) {
+                    mineCoinMain.getAPIManager().setBalance(reciever, Integer.parseInt(args[2]));
+                    sendMessage(sender, reciever, Integer.parseInt(args[2]), "set");
 
-        } else if (args[0].equalsIgnoreCase("add")) {
-            mineCoinMain.getAPIManager().addBalance(reciever, Integer.parseInt(args[2]));
-            sendMessage(sender, reciever, Integer.parseInt(args[2]), "add");
-        } else if (args[0].equalsIgnoreCase("subtract")) {
-            boolean result = false;
-            try {
-                result = mineCoinMain.getAPIManager()
-                        .subtractBalance(reciever, Integer.parseInt(args[2])).get();
-            } catch (InterruptedException | ExecutionException e) {
-                e.printStackTrace();
-            }
-            if (result) {
-                sendMessage(sender, reciever, Integer.parseInt(args[2]), "subtract");
-            } else {
+                } else if (args[0].equalsIgnoreCase("add")) {
+                    mineCoinMain.getAPIManager().addBalance(reciever, Integer.parseInt(args[2]));
+                    sendMessage(sender, reciever, Integer.parseInt(args[2]), "add");
+                } else if (args[0].equalsIgnoreCase("subtract")) {
+                    boolean result = false;
+                    try {
+                        result = mineCoinMain.getAPIManager()
+                                .subtractBalance(reciever, Integer.parseInt(args[2])).get();
+                    } catch (InterruptedException | ExecutionException e) {
+                        e.printStackTrace();
+                    }
+                    if (result) {
+                        sendMessage(sender, reciever, Integer.parseInt(args[2]), "subtract");
+                    } else {
 //low-on-funds
-                sender.sendMessage(
-                        LangFile.LACK_OF_FUNDING_OTHER.getColorValue()
-                                .replace("{player}", reciever.getDisplayName()));
+                        sender.sendMessage(
+                                LangFile.LACK_OF_FUNDING_OTHER.getColorValue()
+                                        .replace("{player}", reciever.getDisplayName()));
+                    }
+                } else {
+                    //invalid-format
+                    sender.sendMessage(LangFile.COIN_ECO_FORMAT.getColorValue());
+                }
             }
-        } else {
-            //invalid-format
-            sender.sendMessage(LangFile.COIN_ECO_FORMAT.getColorValue());
-        }
+        };
+        Bukkit.getScheduler().runTask(mineCoinMain, runnable);
         return true;
     }
 
     private void sendMessage(CommandSender sender, Player receiver, int amount, String job) {
+        int senderBalance = 0;
+        if (sender instanceof Player) {
+            try {
+                senderBalance = mineCoinMain.getAPIManager().getBalance(((Player) sender)).get();
+            } catch (InterruptedException | ExecutionException e) {
+                e.printStackTrace();
+            }
+        }
         sender.sendMessage(Utils.placeholderAPI(Utils
                 .color(Utils
-                        .format(sender, receiver, amount, getSFormat(job))), (OfflinePlayer) sender));
-        receiver.sendMessage(Utils.placeholderAPI(Utils
-                .color(Utils
-                        .format(sender, receiver, amount, getRFormat(job))), (OfflinePlayer) sender));
+                        .format(sender, receiver, senderBalance, amount, getSFormat(job))), (OfflinePlayer) sender));
+        try {
+            receiver.sendMessage(Utils.placeholderAPI(Utils
+                    .color(Utils
+                            .format(sender, receiver, mineCoinMain.getAPIManager().getBalance(receiver).get(), amount, getRFormat(job))), (OfflinePlayer) sender));
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
+
     }
 
     private String getRFormat(String job) {
